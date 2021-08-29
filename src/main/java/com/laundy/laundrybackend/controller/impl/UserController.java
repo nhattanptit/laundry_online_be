@@ -40,29 +40,4 @@ public class UserController implements UserInterface {
         JwtResponseDTO responseDTO = userService.loginUser(userLoginForm);
         return ResponseFactory.sucessRepsonse(responseDTO);
     }
-
-//    @PostMapping("signup")
-//    ResponseEntity<?> registerNewUser(@Valid @RequestBody RegisterUserForm registerUserForm){
-//        User user = User.builder()
-//                .name("test")
-//                .username(registerUserForm.getUsername())
-//                .password(passwordEncoder.encode(registerUserForm.getPassword()))
-//                .address("Earth")
-//                .phoneNumber(UUID.randomUUID().toString())
-//                .build();
-//        userRepository.save(user);
-//        return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
-//    }
-//
-//    @PostMapping("signin")
-//    public GeneralResponse<?> authenticateUser(@Valid @RequestBody RegisterUserForm registerUserForm) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(registerUserForm.getUsername(), registerUserForm.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = jwtProvider.generateJwtToken(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        return new GeneralResponse<Object>(ResponseStatusCodeEnum.SUCCESS.getCode(), new JwtResponseDTO(jwt,userDetails.getUsername()));
-//    }
 }
