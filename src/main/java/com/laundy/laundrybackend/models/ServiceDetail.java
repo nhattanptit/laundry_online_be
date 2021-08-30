@@ -31,6 +31,9 @@ public class ServiceDetail {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String description;
+
     @NotNull
     private BigDecimal price;
 
