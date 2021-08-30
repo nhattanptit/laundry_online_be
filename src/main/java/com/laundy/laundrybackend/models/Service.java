@@ -1,5 +1,6 @@
 package com.laundy.laundrybackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -27,13 +28,10 @@ public class Service {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "service",targetEntity = ServicePrice.class)
-    @JsonManagedReference
-    private Set<ServicePrice> servicePrices;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "service",targetEntity = ServiceDetail.class)
+    @JsonIgnore
+    private Set<ServiceDetail> serviceDetails;
 
-    @Column(nullable = false)
+    @Column
     private String description;
-
-    @Column(nullable = false)
-    private Boolean isBlanketService;
 }

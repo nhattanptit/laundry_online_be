@@ -2,9 +2,10 @@ package com.laundy.laundrybackend.controller.impl;
 
 import com.laundy.laundrybackend.controller.api.ServiceInterface;
 import com.laundy.laundrybackend.models.Service;
+import com.laundy.laundrybackend.models.ServiceDetail;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
 import com.laundy.laundrybackend.models.response.ResponseFactory;
-import com.laundy.laundrybackend.repository.ServicePriceRepository;
+import com.laundy.laundrybackend.service.ServiceDetailsService;
 import com.laundy.laundrybackend.service.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,15 +17,23 @@ import java.util.List;
 @RestController
 public class ServiceController implements ServiceInterface {
     private final ServicesService servicesService;
+    private final ServiceDetailsService serviceDetailsService;
 
     @Autowired
-    public ServiceController(ServicesService servicesService) {
+    public ServiceController(ServicesService servicesService, ServiceDetailsService serviceDetailsService) {
         this.servicesService = servicesService;
+        this.serviceDetailsService = serviceDetailsService;
     }
 
     @Override
     public GeneralResponse<?> getAllService() {
         List<Service> services = servicesService.getAllService();;
         return ResponseFactory.sucessRepsonse(services);
+    }
+
+    @Override
+    public GeneralResponse<?> getServiceDetails(Long serviceId) {
+        List<ServiceDetail> serviceDetails = serviceDetailsService.getAllServiceDetailsByServiceId(serviceId);
+        return ResponseFactory.sucessRepsonse(serviceDetails);
     }
 }

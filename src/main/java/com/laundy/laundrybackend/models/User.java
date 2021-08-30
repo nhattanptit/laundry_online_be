@@ -1,5 +1,6 @@
 package com.laundy.laundrybackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
 import lombok.AllArgsConstructor;
@@ -11,13 +12,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users", uniqueConstraints ={@UniqueConstraint(columnNames = {"phone_number","username","email"})})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number", "username", "email"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,19 +27,22 @@ public class User {
 
     @NotBlank
     @Size(min = 6, max = 100)
+    @Column(nullable = false)
     private String name;
 
     @NotBlank
     @Size(min = 6, max = 50)
+    @Column(nullable = false)
     private String username;
 
     @JsonIgnore
     @Size(min = 6)
+    @Column(nullable = false)
     private String password;
 
 
     @NotBlank
-    @Column(name = "phone_number")
+    @Column(name = "phone_number",nullable = false)
     private String phoneNumber;
 
 
@@ -47,9 +52,14 @@ public class User {
 
     @Email
     @NotBlank
+    @Column(nullable = false)
     private String email;
 
-    public static User getUserFromRegisterForm(RegisterUserForm registerUserForm){
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Order.class, mappedBy = "user")
+    @JsonBackReference
+    private Set<Order> orders;
+
+    public static User getUserFromRegisterForm(RegisterUserForm registerUserForm) {
         return User.builder()
                 .username(registerUserForm.getUsername())
                 .password(registerUserForm.getPassword())
