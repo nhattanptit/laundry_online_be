@@ -6,7 +6,6 @@ import com.laundy.laundrybackend.config.security.jwt.service.UserDetailsServiceI
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -74,7 +73,8 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/user/auth/**").permitAll()
-                .antMatchers("/services/getAll").permitAll()
+                .antMatchers("/services/all").permitAll()
+                .antMatchers("/services/details").permitAll()
                 .antMatchers("/test/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
