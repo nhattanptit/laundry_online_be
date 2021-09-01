@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NewOrderForm {
     private Double distance;
+    private Long serviceId;
     private List<OrderServiceDetailForm> orderServiceDetailForms;
     private String shippingAddress;
 }
