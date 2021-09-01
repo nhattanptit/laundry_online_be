@@ -1,13 +1,14 @@
 package com.laundy.laundrybackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laundy.laundrybackend.constant.ServiceIconEnum;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -29,7 +30,11 @@ public class Service {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "service",targetEntity = ServiceDetail.class)
     @JsonIgnore
-    private Set<ServiceDetail> serviceDetails;
+    private List<ServiceDetail> serviceDetails;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private ServiceIconEnum serviceIcon;
 
     @Column
     private String description;

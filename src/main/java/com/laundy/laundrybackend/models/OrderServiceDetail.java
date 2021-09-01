@@ -19,17 +19,16 @@ public class OrderServiceDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @NotNull
     @Column(nullable = false)
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "service_detail_id", nullable = false)
     private ServiceDetail serviceDetail;

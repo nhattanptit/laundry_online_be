@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 @Data
@@ -32,6 +33,21 @@ public class RegisterUserForm {
     @NotNull
     @Pattern(regexp = Constants.PHONE_NUMBER_REGEX)
     private String phoneNumber;
+
+    @NotBlank
+    @NotNull
+    @Column(nullable = false)
+    private String city;
+
+    @NotBlank
+    @NotNull
+    @Column(nullable = false)
+    private String district;
+
+    @NotBlank
+    @NotNull
+    @Column(nullable = false)
+    private String ward;
 
     @NotBlank
     @Size(min = 6, max = 255)

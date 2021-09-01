@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +28,6 @@ public class Order {
     @Column(nullable = false)
     private OrderStatusEnum status;
 
-    @Size(max = 20)
     @Column(nullable = false)
     private Double distance;
 
@@ -47,12 +46,12 @@ public class Order {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "shipfee_id",nullable = false)
+    @JoinColumn(name = "shipfee_id", nullable = false)
     private ShipFee shipFee;
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
@@ -62,5 +61,5 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OrderServiceDetail.class, mappedBy = "order")
     @JsonBackReference
-    private Set<OrderServiceDetail> orderServiceDetails;
+    private List<OrderServiceDetail> orderServiceDetails;
 }

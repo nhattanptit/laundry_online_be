@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "staff_users",uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number","username"})})
+@Table(name = "staff_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number", "username"})})
 public class StaffUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +50,5 @@ public class StaffUser {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Order.class, mappedBy = "staffUser")
     @JsonBackReference
-    private Set<Order> orders;
+    private List<Order> orders;
 }
