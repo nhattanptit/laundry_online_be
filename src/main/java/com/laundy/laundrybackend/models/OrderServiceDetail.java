@@ -28,7 +28,7 @@ public class OrderServiceDetail {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "service_detail_id", nullable = false)
     private ServiceDetail serviceDetail;
