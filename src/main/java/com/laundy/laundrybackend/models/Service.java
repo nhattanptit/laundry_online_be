@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-@Table(name = "services")
+@Table(name = "services", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Service {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "service",targetEntity = ServiceDetail.class)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "service",targetEntity = ServiceDetail.class)
     @JsonIgnore
     private List<ServiceDetail> serviceDetails;
 

@@ -3,10 +3,7 @@ package com.laundy.laundrybackend.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laundy.laundrybackend.constant.ServiceDetailIconEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,11 +11,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "service_details")
+@Table(name = "service_details", uniqueConstraints = {@UniqueConstraint(columnNames = {"name","service_id"})})
 public class ServiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

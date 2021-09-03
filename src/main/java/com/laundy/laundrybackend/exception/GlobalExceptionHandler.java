@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.validation.ValidationException;
 
-//@ControllerAdvice
+@ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class GlobalExceptionHandler {
@@ -40,6 +40,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public final ResponseEntity<Object> handleMethodArgumentNotValidException(Exception e) {
         return createResponse(ResponseStatusCodeEnum.VALIDATE_DATA_ERROR);
+    }
+
+    @ExceptionHandler({OrderCannotBeCancelException.class})
+    public final ResponseEntity<Object> handleOrderCannotBeCancelException(Exception e) {
+        return createResponse(ResponseStatusCodeEnum.ORDER_CANNOT_BE_CANCEL);
     }
 
     private ResponseEntity<Object> createResponse(ResponseStatusCodeEnum statusCodeEnum) {

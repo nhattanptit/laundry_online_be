@@ -12,7 +12,8 @@ public enum OrderStatusEnum {
     STORE_RECEIVED_ORDER(3, "Store Received Order", "Cửa hàng đã nhận đơn"),
     STORE_DONE_ORDER(4, "Store Done Order", "Cửa hàng đã giặt xong đơn"),
     SHIPPER_DELIVER_ORDER(5, "Shipper Deliver Order", "Shipper đang giao đơn"),
-    COMPLETE_ORDER(6, "Completed Order","Đơn hàng hoàn thành");
+    COMPLETE_ORDER(6, "Completed Order","Đơn hàng hoàn thành"),
+    CANCEL(7,"CANCEL","Hủy đơn");
 
     private final int code;
     private final String value;

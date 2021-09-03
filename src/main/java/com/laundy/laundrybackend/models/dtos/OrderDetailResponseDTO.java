@@ -2,8 +2,7 @@ package com.laundy.laundrybackend.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
-import com.laundy.laundrybackend.models.Order;
-import com.laundy.laundrybackend.models.Service;
+import com.laundy.laundrybackend.models.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,20 +10,21 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class OrderResponseDTO {
+public class OrderDetailResponseDTO {
     private Long id;
 
     private Long serviceId;
     private String serviceName;
 
-    private Double distance;
-
     private OrderStatusEnum status;
+
+    private Double distance;
 
     private BigDecimal totalShipFee;
 
@@ -39,9 +39,8 @@ public class OrderResponseDTO {
     @JsonProperty
     private Boolean isPaid;
 
-    private Long userId;
-
-    private Long staffUserId;
+    @JsonProperty
+    private PaymentInfo paymentInfo;
 
     private String createdDate;
 
@@ -51,9 +50,15 @@ public class OrderResponseDTO {
 
     private String deliveryDateTime;
 
-    public static OrderResponseDTO orderResponseDTOFromOrderAndService(Order order, Service service) {
+    @JsonProperty("shipper")
+    private StaffUser staffUser;
+
+    @JsonProperty("serviceDetails")
+    private List<OrderServiceDetailDTO> orderServiceDetailDTOS;
+
+    public static OrderDetailResponseDTO OrderDetailResponseDTOFromOrderAndService(Order order, Service service, List<OrderServiceDetail> serviceDetails) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY hh:ss");
-        return OrderResponseDTO.builder()
+        return OrderDetailResponseDTO.builder()
                 .id(order.getId())
                 .status(order.getStatus())
                 .totalShipFee(order.getTotalShipFee())
@@ -61,8 +66,7 @@ public class OrderResponseDTO {
                 .totalBill(order.getTotalBill())
                 .deliverAddress(order.getShippingAddress())
                 .pickUpAddress(order.getShippingAddress())
-                .userId(order.getUser().getId())
-                .staffUserId(order.getStaffUser() == null ? null : order.getStaffUser().getId())
+                .staffUser(order.getStaffUser() == null ? null : order.getStaffUser())
                 .createdDate(formatter.format(order.getCreatedDate()))
                 .lastUpdatedDate((formatter.format(order.getLastUpdatedDate())))
                 .pickUpDateTime(order.getPickUpDateTime() == null ? null : formatter.format(order.getPickUpDateTime()))
@@ -71,6 +75,8 @@ public class OrderResponseDTO {
                 .serviceId(service.getId())
                 .distance(order.getDistance())
                 .isPaid(order.getIsPaid())
+                .paymentInfo(order.getPaymentInfo())
+                .orderServiceDetailDTOS(OrderServiceDetailDTO.orderServiceDetailDTOSFromOrderServiceDetails(serviceDetails))
                 .build();
     }
 }

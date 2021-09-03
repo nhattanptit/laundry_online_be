@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
 import lombok.*;
 
@@ -49,6 +50,13 @@ public class Order extends Auditable {
 
     private LocalDateTime deliveryDateTime;
 
+    @JsonProperty
+    private Boolean isPaid;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_info_id")
+    private PaymentInfo paymentInfo;
+
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "shipfee_id", nullable = false)
@@ -64,7 +72,7 @@ public class Order extends Auditable {
     @JoinColumn(name = "staffUser_id")
     private StaffUser staffUser;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OrderServiceDetail.class, mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = OrderServiceDetail.class, mappedBy = "order")
     @JsonBackReference
     private List<OrderServiceDetail> orderServiceDetails;
 }
