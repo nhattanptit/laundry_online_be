@@ -143,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalServicesFee = BigDecimal.ZERO;
         List<Long> ids = detailFormList.stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         List<ServiceDetail> serviceDetails = serviceDetailsRepository.findAllById(ids);
+        if (serviceDetails.isEmpty()) throw new NoResultException("NO SERVICE DETAIL");
         for (OrderServiceDetailForm serviceDetailForm: detailFormList){
             ServiceDetail serviceDetail = serviceDetails.stream()
                     .filter(detail -> serviceDetailForm.getServiceDetailId().equals(detail.getId()))
