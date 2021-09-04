@@ -44,25 +44,6 @@ public class User{
     @Column(name = "phone_number",nullable = false)
     private String phoneNumber;
 
-    @NotBlank
-    @NotNull
-    @Column(nullable = false)
-    private String city;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false)
-    private String district;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false)
-    private String ward;
-
-    @NotBlank
-    @Size(min = 6, max = 255)
-    private String address;
-
     @Email
     @NotBlank
     @Column(nullable = false)
@@ -72,15 +53,15 @@ public class User{
     @JsonBackReference
     private List<Order> orders;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Address.class, mappedBy = "address")
+    @JsonBackReference
+    private List<Address> addresses;
+
     public static User getUserFromRegisterForm(RegisterUserForm registerUserForm) {
         return User.builder()
                 .username(registerUserForm.getUsername())
                 .password(registerUserForm.getPassword())
                 .name(registerUserForm.getName())
-                .city(registerUserForm.getCity())
-                .district(registerUserForm.getDistrict())
-                .ward(registerUserForm.getWard())
-                .address(registerUserForm.getAddress())
                 .phoneNumber(registerUserForm.getPhoneNumber())
                 .email(registerUserForm.getEmail())
                 .build();

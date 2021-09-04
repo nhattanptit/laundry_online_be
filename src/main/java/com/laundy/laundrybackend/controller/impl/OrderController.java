@@ -53,4 +53,13 @@ public class OrderController implements OrderInterface {
         return ResponseFactory.sucessRepsonse(Constants.ORDER_PAYMENT_UPDATED);
     }
 
+    @Override
+    public GeneralResponse<?> getTotalServiceFee(List<OrderServiceDetailForm> detailFormList) {
+        return ResponseFactory.sucessRepsonse(orderService.getServicesFee(detailFormList));
+    }
+
+    @Override
+    public GeneralResponse<?> getShippingFee(Double distance) {
+        return ResponseFactory.sucessRepsonse(orderService.getServicesFee(distance));
+    }
 }

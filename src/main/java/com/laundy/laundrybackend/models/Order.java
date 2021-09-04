@@ -46,6 +46,26 @@ public class Order extends Auditable {
     @NotNull
     private String shippingAddress;
 
+    @NotBlank
+    @NotNull
+    private String shippingPersonName;
+
+    @NotBlank
+    @NotNull
+    private String shippingPersonPhoneNumber;
+
+    @NotBlank
+    @NotNull
+    private String pickUpAddress;
+
+    @NotBlank
+    @NotNull
+    private String pickUpPersonName;
+
+    @NotBlank
+    @NotNull
+    private String pickUpPersonPhoneNumber;
+
     private LocalDateTime pickUpDateTime;
 
     private LocalDateTime deliveryDateTime;

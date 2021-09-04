@@ -12,6 +12,7 @@ public enum ResponseStatusCodeEnum {
     VALIDATE_DATA_ERROR("L2",400),
     USER_NOT_EXISTED_ERROR("L3",400),
     ORDER_CANNOT_BE_CANCEL("L4",400),
+    ADDRESS_CANNOT_BE_DELETE("L5",400),
     INTERNAL_SERVER_ERROR("500",500);
 
     private final String code;

@@ -5,7 +5,9 @@ import com.laundy.laundrybackend.models.dtos.OrderDetailResponseDTO;
 import com.laundy.laundrybackend.models.dtos.OrderResponseDTO;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
+import com.laundy.laundrybackend.models.request.OrderServiceDetailForm;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderService {
@@ -14,4 +16,6 @@ public interface OrderService {
     OrderDetailResponseDTO getOrderDetail(Long orderId);
     void cancelOrder(Long orderId);
     void updateOrderPayment(OrderPaymentForm orderPaymentForm);
+    BigDecimal getServicesFee(Double distance);
+    BigDecimal getServicesFee(List<OrderServiceDetailForm> detailFormList);
 }

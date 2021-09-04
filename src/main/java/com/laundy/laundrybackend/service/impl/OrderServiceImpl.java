@@ -58,9 +58,16 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatusEnum.NEW)
                 .shipFee(shipFee)
                 .shippingAddress(orderForm.getShippingAddress())
-                .totalShipFee(shipFee.getFee().multiply(new BigDecimal(orderForm.getDistance())))
+                .totalShipFee(orderForm.getTotalShipFee())
+                .totalServiceFee(orderForm.getTotalServiceFee())
+                .totalBill((orderForm.getTotalServiceFee().add(orderForm.getTotalShipFee())).multiply(Constants.VAT_VALUES))
                 .user(currentUser)
                 .isPaid(Boolean.FALSE)
+                .pickUpPersonName(orderForm.getPickUpPersonName())
+                .pickUpAddress(orderForm.getPickUpAddress())
+                .pickUpPersonPhoneNumber(orderForm.getPickUpPersonPhoneNumber())
+                .shippingPersonPhoneNumber(orderForm.getShippingPersonPhoneNumber())
+                .shippingPersonName(orderForm.getShippingPersonName())
                 .build();
         com.laundy.laundrybackend.models.Service service = serviceRepository.getById(orderForm.getServiceId());
         List<OrderServiceDetail> serviceDetails = orderServiceDetailsFromNewOrderForm(orderForm,order);
@@ -124,6 +131,28 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public BigDecimal getServicesFee(Double distance) {
+        ShipFee shipFee = shipFeeRepository.getShipFeeByDistance(distance);
+        if (shipFee == null) throw new NoResultException("NO shipfee found match distance");
+        return shipFee.getFee().multiply(BigDecimal.valueOf(distance)) ;
+    }
+
+    @Override
+    public BigDecimal getServicesFee(List<OrderServiceDetailForm> detailFormList) {
+        BigDecimal totalServicesFee = BigDecimal.ZERO;
+        List<Long> ids = detailFormList.stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
+        List<ServiceDetail> serviceDetails = serviceDetailsRepository.findAllById(ids);
+        for (OrderServiceDetailForm serviceDetailForm: detailFormList){
+            ServiceDetail serviceDetail = serviceDetails.stream()
+                    .filter(detail -> serviceDetailForm.getServiceDetailId().equals(detail.getId()))
+                    .findAny()
+                    .orElse(null);
+            totalServicesFee = totalServicesFee.add(BigDecimal.valueOf(serviceDetailForm.getQuantity()).multiply((serviceDetail.getPrice())));
+        }
+        return totalServicesFee;
+    }
+
     private List<OrderServiceDetail> orderServiceDetailsFromNewOrderForm(NewOrderForm orderForm, Order order){
         List<Long> ids = orderForm.getOrderServiceDetailForms().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         List<ServiceDetail> serviceDetails = serviceDetailsRepository.findAllById(ids);
@@ -140,9 +169,7 @@ public class OrderServiceImpl implements OrderService {
                     .serviceDetail(serviceDetail)
                     .quantity(serviceDetailForm.getQuantity())
                     .build());
-            order.setTotalServiceFee(BigDecimal.valueOf(serviceDetailForm.getQuantity()).multiply((serviceDetail.getPrice())));
         }
-        order.setTotalBill((order.getTotalServiceFee().add(order.getTotalShipFee())).multiply(Constants.VAT_VALUES));
         return orderServiceDetails;
     }
 

@@ -3,6 +3,7 @@ package com.laundy.laundrybackend.controller.api;
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
+import com.laundy.laundrybackend.models.request.OrderServiceDetailForm;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
 import com.laundy.laundrybackend.validator.ValueOfEnum;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RequestMapping("orders/")
 @CrossOrigin("*")
@@ -31,11 +33,19 @@ public interface OrderInterface {
     @Operation(description = "Chi tiết order", summary = "Chi tiết order")
     GeneralResponse<?> getOrderDetail(@Parameter(name = "orderId", description = "Id đơn hàng",required = true) @RequestParam("orderId") @NotNull Long orderId);
 
-    @PostMapping("cancel")
+    @PutMapping("cancel")
     @Operation(description = "Hủy order", summary = "Hủy order")
     GeneralResponse<?> cancelOrder(@Parameter(name = "orderId", description = "Id đơn hàng",required = true) @RequestParam("orderId") @NotNull Long orderId);
 
-    @PostMapping("payment-done")
+    @PutMapping("payment-done")
     @Operation(description = "Hoàn thành thanh toán order", summary = "Hoàn thành thanh toán order")
     GeneralResponse<?> paymentOrderFinish(@org.springframework.web.bind.annotation.RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Form thông tin thanh toán", required = true) OrderPaymentForm orderPaymentForm);
+
+    @PostMapping("services-bill")
+    @Operation(description = "Tính tổng giá trị dịch vụ", summary = "Tính tổng giá trị dịch vụ")
+    GeneralResponse<?> getTotalServiceFee(@org.springframework.web.bind.annotation.RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Danh sách các chi tiết dịch vụ", required = true) List<OrderServiceDetailForm> detailFormList);
+
+    @PostMapping("shipping-fee")
+    @Operation(description = "Tính phí ship", summary = "Tính phí ship")
+    GeneralResponse<?> getShippingFee(@RequestParam("distance") @Parameter(name = "distance",description = "Khoảng cách ship đơn", required = true) Double distance);
 }
