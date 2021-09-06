@@ -7,13 +7,14 @@ import com.laundy.laundrybackend.exception.UnauthorizedException;
 import com.laundy.laundrybackend.models.*;
 import com.laundy.laundrybackend.models.dtos.OrderDetailResponseDTO;
 import com.laundy.laundrybackend.models.dtos.OrderResponseDTO;
+import com.laundy.laundrybackend.models.dtos.OrderServiceDetailDTO;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
 import com.laundy.laundrybackend.models.request.OrderServiceDetailForm;
+import com.laundy.laundrybackend.models.response.ServicesFeeResponse;
 import com.laundy.laundrybackend.repository.*;
 import com.laundy.laundrybackend.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -139,8 +140,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BigDecimal getServicesFee(List<OrderServiceDetailForm> detailFormList) {
+    public ServicesFeeResponse getServicesFee(List<OrderServiceDetailForm> detailFormList) {
         BigDecimal totalServicesFee = BigDecimal.ZERO;
+        List<OrderServiceDetailDTO> serviceDetailDTOS = new ArrayList<>();
         List<Long> ids = detailFormList.stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         List<ServiceDetail> serviceDetails = serviceDetailsRepository.findAllById(ids);
         if (serviceDetails.isEmpty()) throw new NoResultException("NO SERVICE DETAIL");
@@ -150,8 +152,9 @@ public class OrderServiceImpl implements OrderService {
                     .findAny()
                     .orElse(null);
             totalServicesFee = totalServicesFee.add(BigDecimal.valueOf(serviceDetailForm.getQuantity()).multiply((serviceDetail.getPrice())));
+            serviceDetailDTOS.add(OrderServiceDetailDTO.orderServiceDetailDTOFromServiceDetail(serviceDetail,serviceDetailForm.getQuantity()));
         }
-        return totalServicesFee;
+        return new ServicesFeeResponse(totalServicesFee,serviceDetailDTOS);
     }
 
     private List<OrderServiceDetail> orderServiceDetailsFromNewOrderForm(NewOrderForm orderForm, Order order){

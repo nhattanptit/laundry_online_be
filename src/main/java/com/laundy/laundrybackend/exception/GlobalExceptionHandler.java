@@ -9,6 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -52,6 +53,11 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<Object> handleAddressCannotBeDeleteException(Exception e) {
         return createResponse(ResponseStatusCodeEnum.ADDRESS_CANNOT_BE_DELETE);
     }
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public final ResponseEntity<Object> handleMissingServletRequestParameterException(Exception e) {
+        return createResponse(ResponseStatusCodeEnum.ADDRESS_CANNOT_BE_DELETE);
+    }
+
 
     private ResponseEntity<Object> createResponse(ResponseStatusCodeEnum statusCodeEnum) {
         GeneralResponse<Object> responseObject = new GeneralResponse<>();

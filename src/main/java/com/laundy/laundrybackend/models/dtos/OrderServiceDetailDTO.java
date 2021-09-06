@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.models.dtos;
 
 import com.laundy.laundrybackend.constant.ServiceDetailIconEnum;
 import com.laundy.laundrybackend.models.OrderServiceDetail;
+import com.laundy.laundrybackend.models.ServiceDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,15 @@ public class OrderServiceDetailDTO {
             detailDTOS.add(orderServiceDetailDTOFromOrderServiceDetail(orderServiceDetail));
         }
         return detailDTOS;
+    }
+
+    public static OrderServiceDetailDTO orderServiceDetailDTOFromServiceDetail(ServiceDetail serviceDetail, Integer quantity){
+        return OrderServiceDetailDTO.builder()
+                .serviceDetailIcon(serviceDetail.getServiceDetailIcon())
+                .quantity(quantity)
+                .price(serviceDetail.getPrice())
+                .name(serviceDetail.getName())
+                .description(serviceDetail.getDescription())
+                .build();
     }
 }
