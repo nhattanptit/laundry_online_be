@@ -18,6 +18,7 @@ import java.util.List;
 @Builder
 public class OrderServiceDetailDTO {
     private Integer quantity;
+    private Long serviceDetailId;
     private String name;
     private String description;
     private ServiceDetailIconEnum serviceDetailIcon;
@@ -30,6 +31,7 @@ public class OrderServiceDetailDTO {
                 .price(orderServiceDetail.getServiceDetail().getPrice())
                 .quantity(orderServiceDetail.getQuantity())
                 .serviceDetailIcon(orderServiceDetail.getServiceDetail().getServiceDetailIcon())
+                .serviceDetailId(orderServiceDetail.getServiceDetail().getId())
                 .build();
     }
 
@@ -49,6 +51,7 @@ public class OrderServiceDetailDTO {
                 .price(serviceDetail.getPrice())
                 .name(serviceDetail.getName())
                 .description(serviceDetail.getDescription())
+                .serviceDetailId(serviceDetail.getId())
                 .build();
     }
 }
