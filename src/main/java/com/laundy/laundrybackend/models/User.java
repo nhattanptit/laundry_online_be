@@ -25,17 +25,14 @@ public class User{
     private Long id;
 
     @NotBlank
-    @Size(min = 6, max = 100)
     @Column(nullable = false)
     private String name;
 
     @NotBlank
-    @Size(min = 6, max = 50)
     @Column(nullable = false)
     private String username;
 
     @JsonIgnore
-    @Size(min = 6)
     @Column(nullable = false)
     private String password;
 

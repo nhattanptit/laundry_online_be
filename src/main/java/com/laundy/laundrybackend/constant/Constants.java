@@ -12,6 +12,12 @@ public class Constants {
     public static final String ORDER_PAYMENT_UPDATED = "Order payment info updated";
     public static final String NEW_ADDRESS_CREATED = "New Address created for User";
     public static final String ADDRESS_INFO_UPDATED = "Address info updated";
+    public static final String MISSING_PARAMETER = "Missing parameters: ";
+    public static final String INVALID_FIELDS = "Please check those invalid fields: ";
+    public static final String REQUEST_DATA_NOT_READABLE = "Request data not readable please check it";
+    public static final String ADDRESS_CANNOT_BE_DELETE = "Default address can't be deleted";
+    public static final String ORDER_CANNOT_BE_CANCEL = "This Order can't be cancel";
+
     public static final BigDecimal VAT_VALUES = BigDecimal.valueOf(1.1);
     private Constants(){
 

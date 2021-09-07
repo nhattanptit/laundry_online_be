@@ -26,7 +26,7 @@ public class OrderController implements OrderInterface {
 
     @Override
     public GeneralResponse<?> createNewOrder(NewOrderForm orderForm) {
-        List<Long> ids = orderForm.getOrderServiceDetailForms().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
+        List<Long> ids = orderForm.getOrderServiceDetails().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         return ResponseFactory.sucessRepsonse(orderService.createNewOrder(orderForm));
     }
 

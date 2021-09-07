@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void cancelOrder(Long orderId) {
+    public NewOrderForm cancelOrder(Long orderId) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()){
             Order order = optionalOrder.get();
@@ -112,6 +112,7 @@ public class OrderServiceImpl implements OrderService {
                 order.setIsPaid(false);
                 order.setStatus(OrderStatusEnum.CANCEL);
                 orderRepository.save(order);
+                return getReOrderInfo(order);
             }
         }else{
             throw new NoResultException("NO ORDER MATCH ID");
@@ -135,8 +136,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BigDecimal getServicesFee(Double distance) {
         ShipFee shipFee = shipFeeRepository.getShipFeeByDistance(distance);
-        if (shipFee == null) throw new NoResultException("NO shipfee found match distance");
-        return shipFee.getFee().multiply(BigDecimal.valueOf(distance)) ;
+        if (shipFee == null) throw new NoResultException("No shipfee found match distance");
+        return shipFee.getFee();
     }
 
     @Override
@@ -158,11 +159,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private List<OrderServiceDetail> orderServiceDetailsFromNewOrderForm(NewOrderForm orderForm, Order order){
-        List<Long> ids = orderForm.getOrderServiceDetailForms().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
+        List<Long> ids = orderForm.getOrderServiceDetails().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         List<ServiceDetail> serviceDetails = serviceDetailsRepository.findAllById(ids);
         if (serviceDetails.isEmpty()) throw new NoResultException("NO SERVICE DETAIL");
         List<OrderServiceDetail> orderServiceDetails = new ArrayList<>();
-        for (OrderServiceDetailForm serviceDetailForm: orderForm.getOrderServiceDetailForms()){
+        for (OrderServiceDetailForm serviceDetailForm: orderForm.getOrderServiceDetails()){
             ServiceDetail serviceDetail = serviceDetails.stream()
                     .filter(detail -> serviceDetailForm.getServiceDetailId().equals(detail.getId()))
                     .findAny()
@@ -175,6 +176,27 @@ public class OrderServiceImpl implements OrderService {
                     .build());
         }
         return orderServiceDetails;
+    }
+
+    private NewOrderForm getReOrderInfo(Order order){
+        com.laundy.laundrybackend.models.Service service = serviceRepository.getServiceByOrderId(order.getId());
+        List<OrderServiceDetailForm> detailForms = new ArrayList<>();
+        for (OrderServiceDetail orderServiceDetail: order.getOrderServiceDetails()){
+            detailForms.add(new OrderServiceDetailForm(orderServiceDetail.getServiceDetail().getId(),orderServiceDetail.getQuantity()));
+        }
+        return NewOrderForm.builder()
+                .serviceId(service.getId())
+                .distance(order.getDistance())
+                .orderServiceDetails(detailForms)
+                .pickUpAddress(order.getPickUpAddress())
+                .pickUpPersonName(order.getPickUpPersonName())
+                .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
+                .totalServiceFee(order.getTotalServiceFee())
+                .shippingAddress(order.getShippingAddress())
+                .shippingPersonName(order.getShippingPersonName())
+                .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
+                .totalShipFee(order.getTotalShipFee())
+                .build();
     }
 
     private boolean checkIfOrderIsCancelable(Order order){

@@ -1,6 +1,7 @@
 package com.laundy.laundrybackend.models.request;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class NewOrderForm {
     @NotNull
     private Double distance;
@@ -22,7 +24,7 @@ public class NewOrderForm {
     @NotNull
     private BigDecimal totalServiceFee;
     @NotNull
-    private List<OrderServiceDetailForm> orderServiceDetailForms;
+    private List<OrderServiceDetailForm> orderServiceDetails;
 
     @NotBlank
     @NotNull

@@ -15,7 +15,7 @@ public interface OrderService {
     OrderDetailResponseDTO createNewOrder(NewOrderForm orderForm);
     List<OrderResponseDTO> getOrderByStatus(OrderStatusEnum status, int page, int size);
     OrderDetailResponseDTO getOrderDetail(Long orderId);
-    void cancelOrder(Long orderId);
+    NewOrderForm cancelOrder(Long orderId);
     void updateOrderPayment(OrderPaymentForm orderPaymentForm);
     BigDecimal getServicesFee(Double distance);
     ServicesFeeResponse getServicesFee(List<OrderServiceDetailForm> detailFormList);
