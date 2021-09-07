@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDetailResponseDTO createNewOrder(NewOrderForm orderForm) {
         ShipFee shipFee = shipFeeRepository.getShipFeeByDistance(orderForm.getDistance());
         User currentUser = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+        Address userDefaultAddress = currentUser.getAddresses().stream().filter(address -> address.getIsDefaultAddress()).findFirst().get();
         Order order = Order.builder()
                 .distance(orderForm.getDistance())
                 .status(OrderStatusEnum.NEW)
@@ -64,9 +65,9 @@ public class OrderServiceImpl implements OrderService {
                 .totalBill((orderForm.getTotalServiceFee().add(orderForm.getTotalShipFee())).multiply(Constants.VAT_VALUES))
                 .user(currentUser)
                 .isPaid(Boolean.FALSE)
-                .pickUpPersonName(orderForm.getPickUpPersonName())
-                .pickUpAddress(orderForm.getPickUpAddress())
-                .pickUpPersonPhoneNumber(orderForm.getPickUpPersonPhoneNumber())
+                .pickUpPersonName(userDefaultAddress.getReceiverName())
+                .pickUpAddress(String.join(", ",new String[]{userDefaultAddress.getAddress(), userDefaultAddress.getWard(), userDefaultAddress.getDistrict(),userDefaultAddress.getCity()}))
+                .pickUpPersonPhoneNumber(userDefaultAddress.getReceiverPhoneNumber())
                 .shippingPersonPhoneNumber(orderForm.getShippingPersonPhoneNumber())
                 .shippingPersonName(orderForm.getShippingPersonName())
                 .build();
@@ -188,9 +189,6 @@ public class OrderServiceImpl implements OrderService {
                 .serviceId(service.getId())
                 .distance(order.getDistance())
                 .orderServiceDetails(detailForms)
-                .pickUpAddress(order.getPickUpAddress())
-                .pickUpPersonName(order.getPickUpPersonName())
-                .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .totalServiceFee(order.getTotalServiceFee())
                 .shippingAddress(order.getShippingAddress())
                 .shippingPersonName(order.getShippingPersonName())

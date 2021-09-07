@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class OrderController implements OrderInterface {
@@ -26,14 +25,13 @@ public class OrderController implements OrderInterface {
 
     @Override
     public GeneralResponse<?> createNewOrder(NewOrderForm orderForm) {
-        List<Long> ids = orderForm.getOrderServiceDetails().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());
         return ResponseFactory.sucessRepsonse(orderService.createNewOrder(orderForm));
     }
 
     @Override
     public GeneralResponse<?> getOrderByStatus(String orderStatus, int page, int size) {
-        OrderStatusEnum status = orderStatus == null? null: OrderStatusEnum.valueOf(orderStatus);
-        return ResponseFactory.sucessRepsonse(orderService.getOrderByStatus(status,page,size));
+        OrderStatusEnum status = orderStatus == null ? null : OrderStatusEnum.valueOf(orderStatus);
+        return ResponseFactory.sucessRepsonse(orderService.getOrderByStatus(status, page, size));
     }
 
     @Override

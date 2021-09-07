@@ -37,16 +37,4 @@ public class NewOrderForm {
     @NotBlank
     @NotNull
     private String shippingPersonPhoneNumber;
-
-    @NotBlank
-    @NotNull
-    private String pickUpAddress;
-
-    @NotBlank
-    @NotNull
-    private String pickUpPersonName;
-
-    @NotBlank
-    @NotNull
-    private String pickUpPersonPhoneNumber;
 }
