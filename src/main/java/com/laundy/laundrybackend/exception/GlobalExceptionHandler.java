@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+//@ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class GlobalExceptionHandler {
