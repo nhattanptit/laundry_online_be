@@ -13,4 +13,7 @@ public interface AddressRepository extends JpaRepository<Address,Long> {
     @Query(value = "delete from Address where id= :id ")
     @Modifying
     void deleteAddressById(Long id);
+
+    @Query(value = "select a from Address a where a.user.id = :userId and a.isDefaultAddress = true ")
+    Address getUserDefaultAddress(Long userId);
 }

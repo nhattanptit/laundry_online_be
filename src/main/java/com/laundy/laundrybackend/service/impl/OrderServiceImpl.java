@@ -38,15 +38,17 @@ public class OrderServiceImpl implements OrderService {
     private final ShipFeeRepository shipFeeRepository;
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public OrderServiceImpl(ServiceDetailsRepository serviceDetailsRepository, OrderServiceDetailRepository orderServiceDetailRepository, OrderRepository orderRepository, ShipFeeRepository shipFeeRepository, UserRepository userRepository, ServiceRepository serviceRepository) {
+    public OrderServiceImpl(ServiceDetailsRepository serviceDetailsRepository, OrderServiceDetailRepository orderServiceDetailRepository, OrderRepository orderRepository, ShipFeeRepository shipFeeRepository, UserRepository userRepository, ServiceRepository serviceRepository, AddressRepository addressRepository) {
         this.serviceDetailsRepository = serviceDetailsRepository;
         this.orderServiceDetailRepository = orderServiceDetailRepository;
         this.orderRepository = orderRepository;
         this.shipFeeRepository = shipFeeRepository;
         this.userRepository = userRepository;
         this.serviceRepository = serviceRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDetailResponseDTO createNewOrder(NewOrderForm orderForm) {
         ShipFee shipFee = shipFeeRepository.getShipFeeByDistance(orderForm.getDistance());
         User currentUser = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        Address userDefaultAddress = currentUser.getAddresses().stream().filter(address -> address.getIsDefaultAddress()).findFirst().get();
+        Address userDefaultAddress = addressRepository.getUserDefaultAddress(currentUser.getId());
         Order order = Order.builder()
                 .distance(orderForm.getDistance())
                 .status(OrderStatusEnum.NEW)

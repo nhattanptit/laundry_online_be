@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,9 +34,18 @@ public class OrderDetailResponseDTO {
 
     private BigDecimal totalBill;
 
-    private String deliverAddress;
+    private String shippingAddress;
+
+    private String shippingPersonName;
+
+    private String shippingPersonPhoneNumber;
+
+    private String pickUpPersonName;
+
+    private String pickUpPersonPhoneNumber;
 
     private String pickUpAddress;
+
 
     @JsonProperty
     private Boolean isPaid;
@@ -64,8 +75,12 @@ public class OrderDetailResponseDTO {
                 .totalShipFee(order.getTotalShipFee())
                 .totalServiceFee(order.getTotalServiceFee())
                 .totalBill(order.getTotalBill())
-                .deliverAddress(order.getShippingAddress())
-                .pickUpAddress(order.getShippingAddress())
+                .shippingAddress(order.getShippingAddress())
+                .shippingPersonName(order.getShippingPersonName())
+                .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
+                .pickUpAddress(order.getPickUpAddress())
+                .pickUpPersonName(order.getPickUpPersonName())
+                .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .staffUser(order.getStaffUser() == null ? null : order.getStaffUser())
                 .createdDate(formatter.format(order.getCreatedDate()))
                 .lastUpdatedDate((formatter.format(order.getLastUpdatedDate())))
