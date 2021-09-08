@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeneralResponse<T> {
-    @JsonProperty("status")
+    @JsonProperty("statusCd")
     private String status;
 
     @JsonProperty("data")
