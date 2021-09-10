@@ -29,9 +29,6 @@ public class PaymentInfo implements Serializable {
     @NotBlank
     private String requestId;
 
-    @NotNull
-    @NotBlank
-    private String hash;
 
     @JsonIgnore
     @OneToOne(mappedBy = "paymentInfo")
@@ -39,7 +36,6 @@ public class PaymentInfo implements Serializable {
 
     public static PaymentInfo paymentInfoFromOrderPaymentForm(OrderPaymentForm orderPaymentForm){
         return PaymentInfo.builder()
-                .hash(orderPaymentForm.getHash())
                 .partnerCode(orderPaymentForm.getPartnerCode())
                 .requestId(orderPaymentForm.getRequestId())
                 .build();

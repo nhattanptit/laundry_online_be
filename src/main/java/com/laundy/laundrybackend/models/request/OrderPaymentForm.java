@@ -21,8 +21,4 @@ public class OrderPaymentForm {
     @NotNull
     @NotBlank
     private String requestId;
-
-    @NotNull
-    @NotBlank
-    private String hash;
 }
