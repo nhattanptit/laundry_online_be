@@ -1,11 +1,15 @@
 package com.laundy.laundrybackend.config.security.jwt.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laundy.laundrybackend.models.ShipperUser;
+import com.laundy.laundrybackend.models.StaffUser;
 import com.laundy.laundrybackend.models.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 public class UserPrinciple implements UserDetails {
@@ -22,11 +26,12 @@ public class UserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(Long id, String name, String username, String password) {
+    public UserPrinciple(Long id, String name, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
+        this.authorities =  authorities;
     }
 
     public static UserPrinciple build(User user) {
@@ -34,7 +39,28 @@ public class UserPrinciple implements UserDetails {
                 user.getId(),
                 user.getName(),
                 user.getUsername(),
-                user.getPassword()
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
+        );
+    }
+
+    public static UserPrinciple build(StaffUser user) {
+        return new UserPrinciple(
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
+        );
+    }
+
+    public static UserPrinciple build(ShipperUser user) {
+        return new UserPrinciple(
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }
 

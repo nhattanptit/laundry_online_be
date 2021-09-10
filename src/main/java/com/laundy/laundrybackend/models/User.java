@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laundy.laundrybackend.constant.UserRoleEnum;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
 import lombok.*;
 
@@ -46,6 +47,10 @@ public class User{
     @Column(nullable = false)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRoleEnum role;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Order.class, mappedBy = "user")
     @JsonBackReference
     private List<Order> orders;
@@ -54,6 +59,10 @@ public class User{
     @JsonBackReference
     private List<Address> addresses;
 
+    @PrePersist
+    void setUserRole(){
+        setRole(UserRoleEnum.ROLE_USER);
+    }
     public static User getUserFromRegisterForm(RegisterUserForm registerUserForm) {
         return User.builder()
                 .username(registerUserForm.getUsername())

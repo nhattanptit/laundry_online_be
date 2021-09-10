@@ -1,14 +1,14 @@
 package com.laundy.laundrybackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.laundy.laundrybackend.constant.StaffUserRoleEnum;
+import com.laundy.laundrybackend.constant.UserRoleEnum;
+import com.laundy.laundrybackend.models.request.RegisterNewStaffUserForm;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "staff_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number", "username"})})
+@Table(name = "staff_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number", "username","email"})})
 public class StaffUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +33,13 @@ public class StaffUser {
     private String username;
 
     @JsonIgnore
-    @Size(min = 6, max = 50)
     @Column(nullable = false)
     private String password;
 
+    @Email
+    @NotBlank
+    @Column(nullable = false)
+    private String email;
 
     @NotBlank
     @Column(name = "phone_number", nullable = false)
@@ -44,9 +47,15 @@ public class StaffUser {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StaffUserRoleEnum role;
+    private UserRoleEnum role;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Order.class, mappedBy = "staffUser")
-    @JsonBackReference
-    private List<Order> orders;
+
+    public static StaffUser staffUserFromRegisterForm(RegisterNewStaffUserForm form){
+        return StaffUser.builder()
+                .name(form.getName())
+                .username(form.getUsername())
+                .email(form.getEmail())
+                .phoneNumber(form.getPhoneNumber())
+                .build();
+    }
 }

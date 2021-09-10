@@ -1,6 +1,7 @@
 package com.laundy.laundrybackend.config.security.jwt;
 
 import com.laundy.laundrybackend.config.security.jwt.service.UserPrinciple;
+import com.laundy.laundrybackend.constant.UserRoleEnum;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class JwtUserProvider {
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
+                .setAudience(userPrincipal.getAuthorities().stream().findFirst().get().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiration*1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -55,6 +57,13 @@ public class JwtUserProvider {
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody().getSubject();
+    }
+
+    public UserRoleEnum getUserRoleFromJwtToken(String token) {
+        return UserRoleEnum.valueOf(Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody().getAudience());
     }
 }
 

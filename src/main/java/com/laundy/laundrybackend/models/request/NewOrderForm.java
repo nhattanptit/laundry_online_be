@@ -37,4 +37,13 @@ public class NewOrderForm {
     @NotBlank
     @NotNull
     private String shippingPersonPhoneNumber;
+
+    @NotNull
+    private Double longShipping;
+
+    @NotNull
+    private Double latShipping;
+
+    @NotNull
+    private Boolean isCashPay;
 }

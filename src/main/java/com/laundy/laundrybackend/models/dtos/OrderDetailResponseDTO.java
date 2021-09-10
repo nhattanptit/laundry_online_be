@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -46,9 +44,11 @@ public class OrderDetailResponseDTO {
 
     private String pickUpAddress;
 
-
     @JsonProperty
     private Boolean isPaid;
+
+    @JsonProperty
+    private Boolean isCashPay;
 
     @JsonProperty
     private PaymentInfo paymentInfo;
@@ -61,8 +61,12 @@ public class OrderDetailResponseDTO {
 
     private String deliveryDateTime;
 
+    private Double longShipping;
+
+    private Double latShipping;
+
     @JsonProperty("shipper")
-    private StaffUser staffUser;
+    private ShipperUser ShipperUser;
 
     @JsonProperty("serviceDetails")
     private List<OrderServiceDetailDTO> orderServiceDetailDTOS;
@@ -81,7 +85,7 @@ public class OrderDetailResponseDTO {
                 .pickUpAddress(order.getPickUpAddress())
                 .pickUpPersonName(order.getPickUpPersonName())
                 .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
-                .staffUser(order.getStaffUser() == null ? null : order.getStaffUser())
+                .ShipperUser(order.getShipperUser() == null ? null : order.getShipperUser())
                 .createdDate(formatter.format(order.getCreatedDate()))
                 .lastUpdatedDate((formatter.format(order.getLastUpdatedDate())))
                 .pickUpDateTime(order.getPickUpDateTime() == null ? null : formatter.format(order.getPickUpDateTime()))
@@ -91,6 +95,9 @@ public class OrderDetailResponseDTO {
                 .distance(order.getDistance())
                 .isPaid(order.getIsPaid())
                 .paymentInfo(order.getPaymentInfo())
+                .isCashPay(order.getIsCashPay())
+                .longShipping(order.getLongShipping())
+                .latShipping((order.getLatShipping()))
                 .orderServiceDetailDTOS(OrderServiceDetailDTO.orderServiceDetailDTOSFromOrderServiceDetails(serviceDetails))
                 .build();
     }

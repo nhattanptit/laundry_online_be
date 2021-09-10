@@ -9,7 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -73,6 +72,15 @@ public class Order extends Auditable {
     @JsonProperty
     private Boolean isPaid;
 
+    @JsonProperty
+    private Boolean isCashPay;
+
+    @NotNull
+    private Double longShipping;
+
+    @NotNull
+    private Double latShipping;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_info_id")
     private PaymentInfo paymentInfo;
@@ -89,8 +97,8 @@ public class Order extends Auditable {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "staffUser_id")
-    private StaffUser staffUser;
+    @JoinColumn(name = "shipperUser_id")
+    private ShipperUser shipperUser;
 
     @OneToMany(fetch = FetchType.EAGER, targetEntity = OrderServiceDetail.class, mappedBy = "order")
     @JsonBackReference

@@ -4,12 +4,14 @@ import com.laundy.laundrybackend.models.request.AddressForm;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
 @RequestMapping("addresses/")
 @CrossOrigin("*")
+@Validated
 public interface AddressInterface {
     @GetMapping("all")
     @Operation(description = "Lấy danh sách address của user hiện tại", summary = "Lấy danh sách address của user hiện tại")

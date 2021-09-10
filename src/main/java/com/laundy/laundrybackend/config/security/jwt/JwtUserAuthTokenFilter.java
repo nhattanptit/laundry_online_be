@@ -1,6 +1,7 @@
 package com.laundy.laundrybackend.config.security.jwt;
 
 import com.laundy.laundrybackend.config.security.jwt.service.UserDetailsServiceImpl;
+import com.laundy.laundrybackend.constant.UserRoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class JwtUserAuthTokenFilter extends OncePerRequestFilter {
             String jwt = getJwt(request);
             if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
                 String username = tokenProvider.getUserNameFromJwtToken(jwt);
-
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserRoleEnum roleEnum = tokenProvider.getUserRoleFromJwtToken(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsernameAndRole(username,roleEnum);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

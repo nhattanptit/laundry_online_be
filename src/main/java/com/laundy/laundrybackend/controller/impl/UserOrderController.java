@@ -2,7 +2,7 @@ package com.laundy.laundrybackend.controller.impl;
 
 import com.laundy.laundrybackend.constant.Constants;
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
-import com.laundy.laundrybackend.controller.api.OrderInterface;
+import com.laundy.laundrybackend.controller.api.UserOrderInterface;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
 import com.laundy.laundrybackend.models.request.OrderServiceDetailForm;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class OrderController implements OrderInterface {
+public class UserOrderController implements UserOrderInterface {
     private final OrderService orderService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public UserOrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
@@ -31,12 +31,17 @@ public class OrderController implements OrderInterface {
     @Override
     public GeneralResponse<?> getOrderByStatus(String orderStatus, int page, int size) {
         OrderStatusEnum status = orderStatus == null ? null : OrderStatusEnum.valueOf(orderStatus);
-        return ResponseFactory.sucessRepsonse(orderService.getOrderByStatus(status, page, size));
+        return ResponseFactory.sucessRepsonse(orderService.getOrdersByStatus(status, page, size));
+    }
+
+    @Override
+    public GeneralResponse<?> getIncompleteOrder(int page, int size) {
+        return ResponseFactory.sucessRepsonse(orderService.getIncompleteOrders(page, size));
     }
 
     @Override
     public GeneralResponse<?> getOrderDetail(Long orderId) {
-        return ResponseFactory.sucessRepsonse(orderService.getOrderDetail(orderId));
+        return ResponseFactory.sucessRepsonse(orderService.getOrderDetailForUser(orderId));
     }
 
     @Override

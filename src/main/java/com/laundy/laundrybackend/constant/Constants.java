@@ -9,6 +9,12 @@ public class Constants {
     public static final String USER_EXIST_ERROR_MESS = "User infos existed";
     public static final String USER_NOT_EXISTED_ERROR = "User not existed";
     public static final String ORDER_CANCELED = "Order canceled";
+    public static final String ORDER_UNACCEPTED = "Order unaccepted";
+    public static final String ORDER_RECEIVED_BY_SHIPPER = "Order received by Shipper";
+    public static final String ORDER_RECEIVED_BY_STORE = "Order received by Store";
+    public static final String ORDER_DONE_BY_STORE = "Order done by Store";
+    public static final String ORDER_DELIVERING = "Order delivering";
+    public static final String ORDER_COMPLETED= "Order completed";
     public static final String ORDER_PAYMENT_UPDATED = "Order payment info updated";
     public static final String NEW_ADDRESS_CREATED = "New Address created for User";
     public static final String ADDRESS_INFO_UPDATED = "Address info updated";

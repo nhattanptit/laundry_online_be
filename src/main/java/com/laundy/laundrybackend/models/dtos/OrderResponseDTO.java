@@ -41,7 +41,7 @@ public class OrderResponseDTO {
 
     private Long userId;
 
-    private Long staffUserId;
+    private Long shipperUserId;
 
     private String createdDate;
 
@@ -62,7 +62,7 @@ public class OrderResponseDTO {
                 .deliverAddress(order.getShippingAddress())
                 .pickUpAddress(order.getShippingAddress())
                 .userId(order.getUser().getId())
-                .staffUserId(order.getStaffUser() == null ? null : order.getStaffUser().getId())
+                .shipperUserId(order.getShipperUser() == null ? null : order.getShipperUser().getId())
                 .createdDate(formatter.format(order.getCreatedDate()))
                 .lastUpdatedDate((formatter.format(order.getLastUpdatedDate())))
                 .pickUpDateTime(order.getPickUpDateTime() == null ? null : formatter.format(order.getPickUpDateTime()))
