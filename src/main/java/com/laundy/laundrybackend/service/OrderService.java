@@ -4,6 +4,7 @@ import com.laundy.laundrybackend.constant.AcceptedShipperOrderStatusEnum;
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
 import com.laundy.laundrybackend.models.dtos.OrderDetailResponseDTO;
 import com.laundy.laundrybackend.models.dtos.OrderResponseDTO;
+import com.laundy.laundrybackend.models.dtos.OrderResponseForShipperDTO;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
 import com.laundy.laundrybackend.models.request.OrderServiceDetailForm;
@@ -41,7 +42,7 @@ public interface OrderService {
 
     OrderDetailResponseDTO getOrderDetailForShipper(Long orderId);
 
-    List<OrderResponseDTO> getOrdersByStatusForShipper(AcceptedShipperOrderStatusEnum status, int page, int size);
+    List<OrderResponseForShipperDTO> getOrdersByStatusForShipper(AcceptedShipperOrderStatusEnum status, int page, int size);
 
     void recivedOrderByStaff(Long orderId);
 
@@ -50,5 +51,5 @@ public interface OrderService {
     List<OrderResponseDTO> getOrdersByStatusAndShipperForStaff(OrderStatusEnum status, String shipperLoginId, int page, int size);
     OrderDetailResponseDTO getOrderDetailForStaff(Long orderId);
 
-    List<OrderResponseDTO> getAvailableOrderListForShipper(int page, int size);
+    List<OrderResponseForShipperDTO> getAvailableOrderListForShipper(int page, int size);
 }

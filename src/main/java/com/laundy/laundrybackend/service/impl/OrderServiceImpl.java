@@ -8,6 +8,7 @@ import com.laundy.laundrybackend.exception.UnauthorizedException;
 import com.laundy.laundrybackend.models.*;
 import com.laundy.laundrybackend.models.dtos.OrderDetailResponseDTO;
 import com.laundy.laundrybackend.models.dtos.OrderResponseDTO;
+import com.laundy.laundrybackend.models.dtos.OrderResponseForShipperDTO;
 import com.laundy.laundrybackend.models.dtos.OrderServiceDetailDTO;
 import com.laundy.laundrybackend.models.request.NewOrderForm;
 import com.laundy.laundrybackend.models.request.OrderPaymentForm;
@@ -261,21 +262,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponseDTO> getOrdersByStatusForShipper(AcceptedShipperOrderStatusEnum status, int page, int size) {
+    public List<OrderResponseForShipperDTO> getOrdersByStatusForShipper(AcceptedShipperOrderStatusEnum status, int page, int size) {
         Pageable pageReq
                 = PageRequest.of(page, size);
         if (status == null){
             List<Order> orders = orderRepository.getUserOrderByStatusAndShipperUsername(null, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
-            return getOrderResponseDTOS(orders);
+            return getOrderResponseForShipperDTOS(orders);
         }
         if (status.equals(AcceptedShipperOrderStatusEnum.INCOMPLETE_ORDER)){
             List<OrderStatusEnum> statuses = new ArrayList<>(Arrays.asList(OrderStatusEnum.CANCEL, OrderStatusEnum.COMPLETE_ORDER));
             List<Order> orders = orderRepository.getUserOrderShipperByUsernameAndOtherThanStatuses(statuses, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
-            return getOrderResponseDTOS(orders);
+            return getOrderResponseForShipperDTOS(orders);
         }else{
             OrderStatusEnum statusEnum = OrderStatusEnum.valueOf(status.name());
             List<Order> orders = orderRepository.getUserOrderByStatusAndShipperUsername(statusEnum, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
-            return getOrderResponseDTOS(orders);
+            return getOrderResponseForShipperDTOS(orders);
         }
     }
 
@@ -319,11 +320,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponseDTO> getAvailableOrderListForShipper(int page, int size) {
+    public List<OrderResponseForShipperDTO> getAvailableOrderListForShipper(int page, int size) {
         Pageable pageReq
                 = PageRequest.of(page, size);
         List<Order> orders = orderRepository.getOrderByStatus(OrderStatusEnum.NEW, pageReq);
-        return getOrderResponseDTOS(orders);
+        return getOrderResponseForShipperDTOS(orders);
     }
 
 
@@ -374,6 +375,15 @@ public class OrderServiceImpl implements OrderService {
         for (Order order : orders) {
             com.laundy.laundrybackend.models.Service service = serviceRepository.getServiceByOrderId(order.getId());
             responseDTOS.add(OrderResponseDTO.orderResponseDTOFromOrderAndService(order, service));
+        }
+        return responseDTOS;
+    }
+
+    private List<OrderResponseForShipperDTO> getOrderResponseForShipperDTOS(List<Order> orders) {
+        List<OrderResponseForShipperDTO> responseDTOS = new ArrayList<>();
+        for (Order order : orders) {
+            com.laundy.laundrybackend.models.Service service = serviceRepository.getServiceByOrderId(order.getId());
+            responseDTOS.add(OrderResponseForShipperDTO.orderResponseForShipperDTODTOFromOrderAndService(order, service));
         }
         return responseDTOS;
     }
