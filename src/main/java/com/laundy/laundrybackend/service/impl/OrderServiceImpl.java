@@ -318,6 +318,14 @@ public class OrderServiceImpl implements OrderService {
         return OrderDetailResponseDTO.OrderDetailResponseDTOFromOrderAndService(order, service, serviceDetails);
     }
 
+    @Override
+    public List<OrderResponseDTO> getAvailableOrderListForShipper(int page, int size) {
+        Pageable pageReq
+                = PageRequest.of(page, size);
+        List<Order> orders = orderRepository.getOrderByStatus(OrderStatusEnum.NEW, pageReq);
+        return getOrderResponseDTOS(orders);
+    }
+
 
     private List<OrderServiceDetail> orderServiceDetailsFromNewOrderForm(NewOrderForm orderForm, Order order) {
         List<Long> ids = orderForm.getOrderServiceDetails().stream().map(OrderServiceDetailForm::getServiceDetailId).collect(Collectors.toList());

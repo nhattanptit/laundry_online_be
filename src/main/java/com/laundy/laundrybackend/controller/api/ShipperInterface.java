@@ -48,6 +48,11 @@ public interface ShipperInterface {
     GeneralResponse<?> completeOrder(@RequestParam("orderId") @Parameter(description = "Id của Order", name = "orderId",required = true) Long orderId);
 
     @PreAuthorize("hasRole('ROLE_SHIPPER')")
+    @PutMapping("orders/available-order")
+    @Operation(description = "Lấy list order mới có thể nhận", summary = "Lấy list order mới có thể nhận")
+    GeneralResponse<?> availableOrder(@RequestParam("page") @Parameter(description = "số trang", example = "0", required = true) @NotNull int page, @RequestParam("size") @Parameter(description = "sô bản ghi của trang", example = "2", required = true) @NotNull int size);
+
+    @PreAuthorize("hasRole('ROLE_SHIPPER')")
     @GetMapping("orders/list")
     @Operation(description = "Get List order theo trạng thái order", summary = "Get List order theo trạng thái order")
     GeneralResponse<?> getOrderByStatus(@Parameter(name = "orderStatus", description = "Status của đơn hàng là 1 trong các giá trị sau SHIPPER_ACCEPTED_ORDER," +

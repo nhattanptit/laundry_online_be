@@ -49,4 +49,6 @@ public interface OrderService {
 
     List<OrderResponseDTO> getOrdersByStatusAndShipperForStaff(OrderStatusEnum status, String shipperLoginId, int page, int size);
     OrderDetailResponseDTO getOrderDetailForStaff(Long orderId);
+
+    List<OrderResponseDTO> getAvailableOrderListForShipper(int page, int size);
 }

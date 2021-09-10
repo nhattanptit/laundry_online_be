@@ -2,7 +2,6 @@ package com.laundy.laundrybackend.controller.impl;
 
 import com.laundy.laundrybackend.constant.AcceptedShipperOrderStatusEnum;
 import com.laundy.laundrybackend.constant.Constants;
-import com.laundy.laundrybackend.constant.OrderStatusEnum;
 import com.laundy.laundrybackend.controller.api.ShipperInterface;
 import com.laundy.laundrybackend.models.request.UserLoginForm;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
@@ -56,6 +55,12 @@ public class ShipperController implements ShipperInterface {
         orderService.completeOrderByShipper(orderId);
         return ResponseFactory.sucessRepsonse(Constants.ORDER_COMPLETED);
     }
+
+    @Override
+    public GeneralResponse<?> availableOrder(int page, int size) {
+        return ResponseFactory.sucessRepsonse(orderService.getAvailableOrderListForShipper(page,size));
+    }
+
 
     @Override
     public GeneralResponse<?> getOrderByStatus(String orderStatus, int page, int size) {
