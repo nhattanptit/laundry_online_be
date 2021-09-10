@@ -20,28 +20,28 @@ public class AddressController implements AddressInterface {
 
     @Override
     public GeneralResponse<?> getAllAddressOfCurrentUser() {
-        return ResponseFactory.sucessRepsonse(addressService.getAllAddressByCurrentUser());
+        return ResponseFactory.successResponse(addressService.getAllAddressByCurrentUser());
     }
 
     @Override
     public GeneralResponse<?> getAddressById(Long addressId) {
-        return ResponseFactory.sucessRepsonse(addressService.getAddressById(addressId));
+        return ResponseFactory.successResponse(addressService.getAddressById(addressId));
     }
 
     @Override
     public GeneralResponse<?> createNewAddressForCurrentUser(AddressForm addressForm) {
         addressService.createNewAddressForCurrentUser(addressForm);
-        return ResponseFactory.sucessRepsonse(Constants.NEW_ADDRESS_CREATED);
+        return ResponseFactory.successResponse(Constants.NEW_ADDRESS_CREATED);
     }
 
     @Override
     public GeneralResponse<?> updateAddressInfo(Long addressId, AddressForm addressForm) {
         addressService.updateAddressInfo(addressId, addressForm);
-        return ResponseFactory.sucessRepsonse(Constants.ADDRESS_INFO_UPDATED);
+        return ResponseFactory.successResponse(Constants.ADDRESS_INFO_UPDATED);
     }
 
     @Override
     public GeneralResponse<?> deleteAddressInfo(Long addressId) {
-        return ResponseFactory.sucessRepsonse(addressService.deleteAddressById(addressId));
+        return ResponseFactory.successResponse(addressService.deleteAddressById(addressId));
     }
 }

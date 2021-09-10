@@ -2,10 +2,13 @@ package com.laundy.laundrybackend.service.impl;
 
 import com.laundy.laundrybackend.config.security.jwt.JwtUserProvider;
 import com.laundy.laundrybackend.constant.Constants;
+import com.laundy.laundrybackend.constant.ResponseStatusCodeEnum;
 import com.laundy.laundrybackend.models.Address;
 import com.laundy.laundrybackend.models.User;
 import com.laundy.laundrybackend.models.dtos.JwtResponseDTO;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
+import com.laundy.laundrybackend.models.request.SocialUserFirstLoginForm;
+import com.laundy.laundrybackend.models.request.SocialUserLoginForm;
 import com.laundy.laundrybackend.models.request.UserLoginForm;
 import com.laundy.laundrybackend.repository.AddressRepository;
 import com.laundy.laundrybackend.repository.UserRepository;
@@ -20,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,9 +48,9 @@ public class UserServiceImpl implements UserService {
         Address address = Address.addressFromRegisterUserForm(registerUserForm);
         address.setUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (!userRepository.existsByUsernameOrPhoneNumberOrEmail(user.getUsername(),user.getPhoneNumber(), user.getEmail())){
+        if (!userRepository.existsByUsernameOrPhoneNumberOrEmail(user.getUsername(), user.getPhoneNumber(), user.getEmail())) {
             addressRepository.save(address);
-        }else {
+        } else {
             throw new ValidationException(Constants.USER_EXIST_ERROR_MESS);
         }
     }
@@ -61,15 +64,67 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return new JwtResponseDTO(jwt,userDetails.getUsername());
+        return new JwtResponseDTO(jwt, userDetails.getUsername());
     }
 
-    private User getUserByUsernameOrPhoneNumber(String loginId){
-        if (userRepository.findByUsername(loginId).isPresent()){
+    @Override
+    public Object loginSocialUser(SocialUserLoginForm socialUserLoginForm) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(socialUserLoginForm.getEmail());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (!user.getIsSocialUser()) return ResponseStatusCodeEnum.SOCIAL_USER_EMAIL_LINK_TO_EXISTED_USER;
+            return authenSocialUser(user);
+        }
+        return ResponseStatusCodeEnum.SOCIAL_USER_NOT_EXIST;
+    }
+
+    @Override
+    public Object loginSocialUserFirstTime(SocialUserFirstLoginForm socialUserFirstLoginForm) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(socialUserFirstLoginForm.getEmail());
+        User user;
+        if (optionalUser.isPresent()){
+            if (!optionalUser.get().getIsSocialUser()) return ResponseStatusCodeEnum.SOCIAL_USER_EMAIL_LINK_TO_EXISTED_USER;
+            user = optionalUser.get();
+        }else{
+            Address address = Address.builder()
+                    .address(socialUserFirstLoginForm.getAddress())
+                    .city(socialUserFirstLoginForm.getCity())
+                    .ward(socialUserFirstLoginForm.getWard())
+                    .district((socialUserFirstLoginForm.getDistrict()))
+                    .isDefaultAddress(Boolean.TRUE)
+                    .receiverName(socialUserFirstLoginForm.getName())
+                    .receiverPhoneNumber(socialUserFirstLoginForm.getPhoneNumber())
+                    .build();
+
+            user = User.builder()
+                    .isSocialUser(Boolean.TRUE)
+                    .email(socialUserFirstLoginForm.getEmail())
+                    .phoneNumber(socialUserFirstLoginForm.getPhoneNumber())
+                    .name(socialUserFirstLoginForm.getName())
+                    .username(socialUserFirstLoginForm.getEmail())
+                    .password(passwordEncoder.encode(socialUserFirstLoginForm.getEmail()))
+                    .build();
+            address.setUser(user);
+            addressRepository.save(address);
+        }
+        return authenSocialUser(user);
+    }
+
+    private User getUserByUsernameOrPhoneNumber(String loginId) {
+        if (userRepository.findByUsername(loginId).isPresent()) {
             return userRepository.findByUsername(loginId).get();
-        }else if (userRepository.findUserByPhoneNumber(loginId).isPresent()){
+        } else if (userRepository.findUserByPhoneNumber(loginId).isPresent()) {
             return userRepository.findUserByPhoneNumber(loginId).get();
         }
         throw new ValidationException(Constants.USER_NOT_EXISTED_ERROR);
+    }
+
+    private JwtResponseDTO authenSocialUser(User user){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getUsername()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtProvider.generateJwtToken(authentication);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return new JwtResponseDTO(jwt, userDetails.getUsername());
     }
 }

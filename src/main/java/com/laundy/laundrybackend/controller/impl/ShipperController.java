@@ -24,52 +24,52 @@ public class ShipperController implements ShipperInterface {
 
     @Override
     public GeneralResponse<?> login(UserLoginForm userLoginForm) {
-        return ResponseFactory.sucessRepsonse(shipperUserService.loginUser(userLoginForm));
+        return ResponseFactory.successResponse(shipperUserService.loginUser(userLoginForm));
     }
 
     @Override
     public GeneralResponse<?> acceptOrder(Long orderId) {
-        return ResponseFactory.sucessRepsonse(orderService.acceptOrderByShipper(orderId));
+        return ResponseFactory.successResponse(orderService.acceptOrderByShipper(orderId));
     }
 
     @Override
     public GeneralResponse<?> cancelOrder(Long orderId) {
         orderService.cancelOrderByShipper(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_UNACCEPTED);
+        return ResponseFactory.successResponse(Constants.ORDER_UNACCEPTED);
     }
 
     @Override
     public GeneralResponse<?> receiveOrder(Long orderId) {
         orderService.receivedOrderByShipper(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_RECEIVED_BY_SHIPPER);
+        return ResponseFactory.successResponse(Constants.ORDER_RECEIVED_BY_SHIPPER);
     }
 
     @Override
     public GeneralResponse<?> deliverOrder(Long orderId) {
         orderService.deliverOrderByShipper(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_DELIVERING);
+        return ResponseFactory.successResponse(Constants.ORDER_DELIVERING);
     }
 
     @Override
     public GeneralResponse<?> completeOrder(Long orderId) {
         orderService.completeOrderByShipper(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_COMPLETED);
+        return ResponseFactory.successResponse(Constants.ORDER_COMPLETED);
     }
 
     @Override
     public GeneralResponse<?> availableOrder(int page, int size) {
-        return ResponseFactory.sucessRepsonse(orderService.getAvailableOrderListForShipper(page,size));
+        return ResponseFactory.successResponse(orderService.getAvailableOrderListForShipper(page,size));
     }
 
 
     @Override
     public GeneralResponse<?> getOrderByStatus(String orderStatus, int page, int size) {
         AcceptedShipperOrderStatusEnum statusEnum = orderStatus == null ? null : AcceptedShipperOrderStatusEnum.valueOf(orderStatus);
-        return ResponseFactory.sucessRepsonse(orderService.getOrdersByStatusForShipper(statusEnum,page,size));
+        return ResponseFactory.successResponse(orderService.getOrdersByStatusForShipper(statusEnum,page,size));
     }
 
     @Override
     public GeneralResponse<?> getOrderDetail(Long orderId) {
-        return ResponseFactory.sucessRepsonse(orderService.getOrderDetailForShipper(orderId));
+        return ResponseFactory.successResponse(orderService.getOrderDetailForShipper(orderId));
     }
 }

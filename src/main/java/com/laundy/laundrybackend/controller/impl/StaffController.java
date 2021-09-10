@@ -27,40 +27,40 @@ public class StaffController implements StaffInterface {
     @Override
     public GeneralResponse<?> registerNewStaffUser(RegisterNewStaffUserForm registerNewStaffUserForm, String role) {
         staffUserService.registerNewUser(registerNewStaffUserForm, role);
-        return ResponseFactory.sucessRepsonse(Constants.REGISTER_NEW_USER_SUCCESS);
+        return ResponseFactory.successResponse(Constants.REGISTER_NEW_USER_SUCCESS);
     }
 
     @Override
     public GeneralResponse<?> registerNewShipperUser(RegisterNewShipperUserForm registerNewShipperUserForm) {
         staffUserService.registerNewShipper(registerNewShipperUserForm);
-        return ResponseFactory.sucessRepsonse(Constants.REGISTER_NEW_USER_SUCCESS);
+        return ResponseFactory.successResponse(Constants.REGISTER_NEW_USER_SUCCESS);
     }
 
     @Override
     public GeneralResponse<?> receivedOrder(Long orderId) {
         orderService.recivedOrderByStaff(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_RECEIVED_BY_STORE);
+        return ResponseFactory.successResponse(Constants.ORDER_RECEIVED_BY_STORE);
     }
 
     @Override
     public GeneralResponse<?> DoneOrder(Long orderId) {
         orderService.doneOrderByStaff(orderId);
-        return ResponseFactory.sucessRepsonse(Constants.ORDER_DONE_BY_STORE);
+        return ResponseFactory.successResponse(Constants.ORDER_DONE_BY_STORE);
     }
 
     @Override
     public GeneralResponse<?> getOrderByStatusAndShipperLoginId(String orderStatus, String shipperLoginId, int page, int size) {
         OrderStatusEnum status = orderStatus == null ? null : OrderStatusEnum.valueOf(orderStatus);
-        return ResponseFactory.sucessRepsonse(orderService.getOrdersByStatusAndShipperForStaff(status,shipperLoginId,page,size));
+        return ResponseFactory.successResponse(orderService.getOrdersByStatusAndShipperForStaff(status,shipperLoginId,page,size));
     }
 
     @Override
     public GeneralResponse<?> getOrderDetail(Long orderId) {
-        return ResponseFactory.sucessRepsonse(orderService.getOrderDetailForStaff(orderId));
+        return ResponseFactory.successResponse(orderService.getOrderDetailForStaff(orderId));
     }
 
     @Override
     public GeneralResponse<?> login(UserLoginForm userLoginForm) {
-        return ResponseFactory.sucessRepsonse(staffUserService.loginUser(userLoginForm));
+        return ResponseFactory.successResponse(staffUserService.loginUser(userLoginForm));
     }
 }

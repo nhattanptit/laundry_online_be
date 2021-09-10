@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laundy.laundrybackend.constant.UserRoleEnum;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
 import lombok.*;
@@ -37,6 +38,8 @@ public class User{
     @Column(nullable = false)
     private String password;
 
+    @JsonProperty
+    private Boolean isSocialUser;
 
     @NotBlank
     @Column(name = "phone_number",nullable = false)
@@ -70,6 +73,7 @@ public class User{
                 .name(registerUserForm.getName())
                 .phoneNumber(registerUserForm.getPhoneNumber())
                 .email(registerUserForm.getEmail())
+                .isSocialUser(Boolean.FALSE)
                 .build();
     }
 }

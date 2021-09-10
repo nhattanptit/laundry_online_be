@@ -88,6 +88,11 @@ public class GlobalExceptionHandler {
         return createResponse(ResponseStatusCodeEnum.REQUEST_DATA_NOT_READABLE, Constants.REQUEST_DATA_NOT_READABLE);
     }
 
+    @ExceptionHandler({SocialLoginException.class})
+    public final ResponseEntity<Object> handleSocialLoginException(Exception e) {
+        return createResponse(ResponseStatusCodeEnum.INTERNAL_SERVER_ERROR,"Server Errors");
+    }
+
     private ResponseEntity<Object> createResponse(ResponseStatusCodeEnum statusCodeEnum) {
         GeneralResponse<Object> responseObject = new GeneralResponse<>();
         responseObject.setStatus(statusCodeEnum.getCode());
@@ -97,7 +102,8 @@ public class GlobalExceptionHandler {
     private ResponseEntity<Object> createResponse(ResponseStatusCodeEnum statusCodeEnum, String message) {
         GeneralResponse<Object> responseObject = new GeneralResponse<>();
         responseObject.setStatus(statusCodeEnum.getCode());
-        responseObject.setData(message);
+        responseObject.setMessage(message);
+        responseObject.setData(null);
         return new ResponseEntity<>(responseObject, HttpStatus.valueOf(statusCodeEnum.getHttpCode()));
     }
 }

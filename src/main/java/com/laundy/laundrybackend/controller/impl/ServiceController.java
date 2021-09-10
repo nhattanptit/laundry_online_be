@@ -29,13 +29,13 @@ public class ServiceController implements ServiceInterface {
     @Override
     public GeneralResponse<?> getAllService() {
         List<Service> services = servicesService.getAllService();;
-        return ResponseFactory.sucessRepsonse(services);
+        return ResponseFactory.successResponse(services);
     }
 
     @Override
     public GeneralResponse<?> getServiceDetails(Long serviceId) {
         List<ServiceDetail> serviceDetails = serviceDetailsService.getAllServiceDetailsByServiceId(serviceId);
-        if (serviceDetails.isEmpty()) return ResponseFactory.sucessRepsonse(null);
-        return ResponseFactory.sucessRepsonse(ServiceDetailDTO.serviceDetailDTOSFromServiceDetails(serviceDetails));
+        if (serviceDetails.isEmpty()) return ResponseFactory.successResponse(null);
+        return ResponseFactory.successResponse(ServiceDetailDTO.serviceDetailDTOSFromServiceDetails(serviceDetails));
     }
 }

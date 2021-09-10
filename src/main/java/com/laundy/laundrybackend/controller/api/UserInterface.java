@@ -1,6 +1,8 @@
 package com.laundy.laundrybackend.controller.api;
 
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
+import com.laundy.laundrybackend.models.request.SocialUserFirstLoginForm;
+import com.laundy.laundrybackend.models.request.SocialUserLoginForm;
 import com.laundy.laundrybackend.models.request.UserLoginForm;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,4 +23,12 @@ public interface UserInterface {
     @PostMapping("auth/signin")
     @Operation(description = "Đăng nhập hệ thống với username hoặc số điện thoại và password", summary = "Đăng nhập hệ thống với username hoặc số điện thoại và password")
     GeneralResponse<?> login(@RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Form thông tin đăng nhập", required = true) UserLoginForm userLoginForm);
+
+    @PostMapping("auth/social-signin")
+    @Operation(description = "Đăng nhập hệ thống với social user", summary = "Đăng nhập hệ thống với social user")
+    GeneralResponse<?> socialLogin(@RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Form thông tin social user", required = true) SocialUserLoginForm socialUserLoginForm);
+
+    @PostMapping("auth/social-first-signin")
+    @Operation(description = "Đăng nhập hệ thống lần đầu với social user", summary = "Đăng nhập hệ thống lần đầu với social user")
+    GeneralResponse<?> socialFirstLogin(@RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Form thông tin đăng nhập lần đầu của social user", required = true) SocialUserFirstLoginForm socialUserFirstLoginForm);
 }

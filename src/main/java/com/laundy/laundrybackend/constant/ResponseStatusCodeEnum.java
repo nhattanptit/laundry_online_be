@@ -17,6 +17,8 @@ public enum ResponseStatusCodeEnum {
     INVALID_FIELDS("L7",400),
     REQUEST_DATA_NOT_READABLE("L8",400),
     NO_RESULT_ERROR("L9",500),
+    SOCIAL_USER_NOT_EXIST("L10",200),
+    SOCIAL_USER_EMAIL_LINK_TO_EXISTED_USER("L11",200),
     INTERNAL_SERVER_ERROR("500",500);
 
     private final String code;

@@ -23,6 +23,8 @@ public class Constants {
     public static final String REQUEST_DATA_NOT_READABLE = "Request data not readable please check it";
     public static final String ADDRESS_CANNOT_BE_DELETE = "Default address can't be deleted";
     public static final String ORDER_CANNOT_BE_CANCEL = "This Order can't be cancel";
+    public static final String SOCIAL_USER_NOT_EXIST = "Social user not exist in system";
+    public static final String SOCIAL_USER_EMAIL_LINK_TO_EXISTED_USER = "Social email already link to another system account! Please login using that account";
 
     public static final BigDecimal VAT_VALUES = BigDecimal.valueOf(1.1);
     private Constants(){

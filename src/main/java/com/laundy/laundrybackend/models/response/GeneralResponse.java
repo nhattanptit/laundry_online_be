@@ -14,6 +14,9 @@ public class GeneralResponse<T> {
     @JsonProperty("statusCd")
     private String status;
 
+    @JsonProperty("message")
+    private String message;
+
     @JsonProperty("data")
     private T data;
 }
