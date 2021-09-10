@@ -48,7 +48,7 @@ public interface StaffInterface {
     @GetMapping("orders/list")
     @Operation(description = "Get List order theo trạng thái order và thông tin đăng nhập của shipper", summary = "Get List order theo trạng thái order và thông tin đăng nhập của shipper")
     GeneralResponse<?> getOrderByStatusAndShipperLoginId(@Parameter(name = "orderStatus", description = "Status của đơn hàng là 1 trong các giá trị sau NEW, SHIPPER_ACCEPTED_ORDER," +
-            " SHIPPER_RECEIVED_ORDER, STORE_RECEIVED_ORDER, STORE_DONE_ORDER, SHIPPER_DELIVER_ORDER, COMPLETED_ORDER, CANCEL", example = "NEW")
+            " SHIPPER_RECEIVED_ORDER, STORE_RECEIVED_ORDER, STORE_DONE_ORDER, SHIPPER_DELIVER_ORDER, COMPLETE_ORDER, CANCEL", example = "NEW")
                                         @ValueOfEnum(enumClass = OrderStatusEnum.class) @RequestParam(value = "orderStatus", required = false) String orderStatus, @RequestParam(value = "shipperLoginId",required = false) @Parameter(description = "Thông tin đăng nhập của shipper(username hoặc số điện thoại hoặc email)", example = "0") String shipperLoginId, @RequestParam("page") @Parameter(description = "số trang", example = "0", required = true) @NotNull int page, @RequestParam("size") @Parameter(description = "sô bản ghi của trang", example = "2", required = true) @NotNull int size);
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_STAFF')")

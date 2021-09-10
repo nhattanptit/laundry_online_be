@@ -28,7 +28,7 @@ public interface UserOrderInterface {
     @GetMapping("list")
     @Operation(description = "Get List order theo trạng thái order", summary = "Get List order theo trạng thái order")
     GeneralResponse<?> getOrderByStatus(@Parameter(name = "orderStatus", description = "Status của đơn hàng là 1 trong các giá trị sau NEW, SHIPPER_ACCEPTED_ORDER," +
-            " SHIPPER_RECEIVED_ORDER, STORE_RECEIVED_ORDER, STORE_DONE_ORDER, SHIPPER_DELIVER_ORDER, COMPLETED_ORDER, CANCEL", example = "NEW")
+            " SHIPPER_RECEIVED_ORDER, STORE_RECEIVED_ORDER, STORE_DONE_ORDER, SHIPPER_DELIVER_ORDER, COMPLETE_ORDER, CANCEL", example = "NEW")
                                         @ValueOfEnum(enumClass = OrderStatusEnum.class) @RequestParam(value = "orderStatus", required = false) String orderStatus, @RequestParam("page") @Parameter(description = "số trang", example = "0", required = true) @NotNull int page, @RequestParam("size") @Parameter(description = "sô bản ghi của trang", example = "2", required = true) @NotNull int size);
 
     @GetMapping("incomplete-list")
