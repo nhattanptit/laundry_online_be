@@ -39,6 +39,7 @@ public class User{
     private String password;
 
     @JsonProperty
+    @Column(nullable = false)
     private Boolean isSocialUser;
 
     @NotBlank
