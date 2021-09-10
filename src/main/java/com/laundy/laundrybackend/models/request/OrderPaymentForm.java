@@ -25,7 +25,4 @@ public class OrderPaymentForm {
     @NotNull
     @NotBlank
     private String hash;
-
-    @NotNull
-    private Double version;
 }
