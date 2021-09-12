@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.repository;
 
 import com.laundy.laundrybackend.constant.OrderStatusEnum;
 import com.laundy.laundrybackend.models.Order;
+import com.laundy.laundrybackend.models.ShipperUser;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value = "update Order o set o.status = :status where o.id = :id")
     Boolean updateOrderStatus(Long id, OrderStatusEnum status);
+
+    Integer countAllByShipperUserAndStatusNot (ShipperUser shipperUser, OrderStatusEnum statusEnum);
 }

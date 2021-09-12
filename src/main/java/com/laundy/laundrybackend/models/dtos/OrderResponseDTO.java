@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 
@@ -32,14 +34,22 @@ public class OrderResponseDTO {
 
     private BigDecimal totalBill;
 
-    private String deliverAddress;
-
-    private String pickUpAddress;
-
     @JsonProperty
     private Boolean isPaid;
 
     private Long userId;
+
+    private String shippingAddress;
+
+    private String shippingPersonName;
+
+    private String shippingPersonPhoneNumber;
+
+    private String pickUpAddress;
+
+    private String pickUpPersonName;
+
+    private String pickUpPersonPhoneNumber;
 
     private Long shipperUserId;
 
@@ -59,9 +69,13 @@ public class OrderResponseDTO {
                 .totalShipFee(order.getTotalShipFee())
                 .totalServiceFee(order.getTotalServiceFee())
                 .totalBill(order.getTotalBill())
-                .deliverAddress(order.getShippingAddress())
-                .pickUpAddress(order.getShippingAddress())
                 .userId(order.getUser().getId())
+                .shippingAddress(order.getShippingAddress())
+                .shippingPersonName(order.getShippingPersonName())
+                .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
+                .pickUpAddress(order.getPickUpAddress())
+                .pickUpPersonName(order.getPickUpPersonName())
+                .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .shipperUserId(order.getShipperUser() == null ? null : order.getShipperUser().getId())
                 .createdDate(formatter.format(order.getCreatedDate()))
                 .lastUpdatedDate((formatter.format(order.getLastUpdatedDate())))

@@ -25,6 +25,7 @@ public class Constants {
     public static final String ORDER_CANNOT_BE_CANCEL = "This Order can't be cancel";
     public static final String SOCIAL_USER_NOT_EXIST = "Social user not exist in system";
     public static final String SOCIAL_USER_EMAIL_LINK_TO_EXISTED_USER = "Social email already link to another system account! Please login using that account";
+    public static int MAX_SHIPPER_CONCURRENT_ACCEPT_ORDERS = 5;
 
     public static final BigDecimal VAT_VALUES = BigDecimal.valueOf(1.1);
     private Constants(){

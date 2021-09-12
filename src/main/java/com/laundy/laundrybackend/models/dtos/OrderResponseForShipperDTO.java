@@ -30,9 +30,17 @@ public class OrderResponseForShipperDTO {
 
     private BigDecimal totalBill;
 
-    private String deliverAddress;
+    private String shippingAddress;
+
+    private String shippingPersonName;
+
+    private String shippingPersonPhoneNumber;
 
     private String pickUpAddress;
+
+    private String pickUpPersonName;
+
+    private String pickUpPersonPhoneNumber;
 
     @JsonProperty
     private Boolean isPaid;
@@ -59,8 +67,12 @@ public class OrderResponseForShipperDTO {
                 .totalShipFee(order.getTotalShipFee())
                 .totalServiceFee(order.getTotalServiceFee())
                 .totalBill(order.getTotalBill())
-                .deliverAddress(order.getShippingAddress())
-                .pickUpAddress(order.getShippingAddress())
+                .shippingAddress(order.getShippingAddress())
+                .shippingPersonName(order.getShippingPersonName())
+                .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
+                .pickUpAddress(order.getPickUpAddress())
+                .pickUpPersonName(order.getPickUpPersonName())
+                .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .userName(order.getUser().getName())
                 .userPhoneNumber(order.getUser().getPhoneNumber())
                 .shipperUserId(order.getShipperUser() == null ? null : order.getShipperUser().getId())

@@ -20,11 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -93,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseDTO> getOrdersByStatus(OrderStatusEnum status, int page, int size) {
         Pageable pageReq
-                = PageRequest.of(page, size);
+                = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdDate"));
         List<Order> orders = orderRepository.getUserOrderByStatusAndUsername(status, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
         return getOrderResponseDTOS(orders);
     }
@@ -101,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseDTO> getIncompleteOrders(int page, int size) {
         Pageable pageReq
-                = PageRequest.of(page, size);
+                = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdDate"));
         List<OrderStatusEnum> statuses = new ArrayList<>(Arrays.asList(OrderStatusEnum.CANCEL, OrderStatusEnum.COMPLETE_ORDER));
         List<Order> orders = orderRepository.getUserOrderByUsernameAndOtherThanStatuses(statuses, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
         return getOrderResponseDTOS(orders);
@@ -184,6 +186,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDetailResponseDTO acceptOrderByShipper(Long orderId) {
         Order order = getOrderById(orderId);
         ShipperUser shipperUser = getShipperBySecurityContext();
+        if (orderRepository.countAllByShipperUserAndStatusNot(shipperUser,OrderStatusEnum.COMPLETE_ORDER) >= Constants.MAX_SHIPPER_CONCURRENT_ACCEPT_ORDERS) throw new ValidationException("Can't have more than "+Constants.MAX_SHIPPER_CONCURRENT_ACCEPT_ORDERS+" order at a time");
         if (!order.getStatus().equals(OrderStatusEnum.NEW))
             throw new UnauthorizedException("Order has already been accepted by another shipper");
         order.setShipperUser(shipperUser);
@@ -264,7 +267,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseForShipperDTO> getOrdersByStatusForShipper(AcceptedShipperOrderStatusEnum status, int page, int size) {
         Pageable pageReq
-                = PageRequest.of(page, size);
+                = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdDate"));
         if (status == null){
             List<Order> orders = orderRepository.getUserOrderByStatusAndShipperUsername(null, SecurityContextHolder.getContext().getAuthentication().getName(), pageReq);
             return getOrderResponseForShipperDTOS(orders);
@@ -299,7 +302,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseDTO> getOrdersByStatusAndShipperForStaff(OrderStatusEnum status, String shipperLoginId, int page, int size) {
         Pageable pageReq
-                = PageRequest.of(page, size);
+                = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdDate"));
         if(shipperLoginId == null){
             Optional<ShipperUser> optionalShipperUser = shipperUserRepository.findUserByUsernameOrEmailOrPhone(shipperLoginId);
             if (!optionalShipperUser.isPresent()) throw new NoResultException("No shipper match the login information");
@@ -322,7 +325,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseForShipperDTO> getAvailableOrderListForShipper(int page, int size) {
         Pageable pageReq
-                = PageRequest.of(page, size);
+                = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdDate"));
         List<Order> orders = orderRepository.getOrderByStatus(OrderStatusEnum.NEW, pageReq);
         return getOrderResponseForShipperDTOS(orders);
     }
