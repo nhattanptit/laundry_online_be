@@ -44,6 +44,6 @@ public class SocialUserFirstLoginForm {
     private String ward;
 
     @NotBlank
-    @Size(min = 6, max = 255)
+    @Size(max = 255)
     private String address;
 }
