@@ -79,7 +79,7 @@ public class OrderResponseForShipperDTO {
                 .shippingPersonName(order.getShippingPersonName())
                 .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
                 .pickUpAddress(order.getPickUpAddress())
-                .pickUpCity(order.getPickUpDistrict())
+                .pickUpCity(order.getPickUpCity())
                 .pickUpDistrict(order.getPickUpDistrict())
                 .pickUpWard(order.getPickUpWard())
                 .pickUpPersonName(order.getPickUpPersonName())
