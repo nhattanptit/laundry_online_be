@@ -47,6 +47,12 @@ public class OrderResponseDTO {
 
     private String pickUpAddress;
 
+    private String pickUpWard;
+
+    private String pickUpDistrict;
+
+    private String pickUpCity;
+
     private String pickUpPersonName;
 
     private String pickUpPersonPhoneNumber;
@@ -74,6 +80,9 @@ public class OrderResponseDTO {
                 .shippingPersonName(order.getShippingPersonName())
                 .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
                 .pickUpAddress(order.getPickUpAddress())
+                .pickUpCity(order.getPickUpDistrict())
+                .pickUpDistrict(order.getPickUpDistrict())
+                .pickUpWard(order.getPickUpWard())
                 .pickUpPersonName(order.getPickUpPersonName())
                 .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .shipperUserId(order.getShipperUser() == null ? null : order.getShipperUser().getId())

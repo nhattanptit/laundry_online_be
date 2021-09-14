@@ -59,6 +59,19 @@ public class Order extends Auditable {
 
     @NotBlank
     @NotNull
+    private String pickUpWard;
+
+
+    @NotBlank
+    @NotNull
+    private String pickUpDistrict;
+
+    @NotBlank
+    @NotNull
+    private String pickUpCity;
+
+    @NotBlank
+    @NotNull
     private String pickUpPersonName;
 
     @NotBlank

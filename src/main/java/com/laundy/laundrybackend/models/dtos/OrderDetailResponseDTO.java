@@ -44,6 +44,12 @@ public class OrderDetailResponseDTO {
 
     private String pickUpAddress;
 
+    private String pickUpWard;
+
+    private String pickUpDistrict;
+
+    private String pickUpCity;
+
     @JsonProperty
     private Boolean isPaid;
 
@@ -83,6 +89,9 @@ public class OrderDetailResponseDTO {
                 .shippingPersonName(order.getShippingPersonName())
                 .shippingPersonPhoneNumber(order.getShippingPersonPhoneNumber())
                 .pickUpAddress(order.getPickUpAddress())
+                .pickUpCity(order.getPickUpDistrict())
+                .pickUpDistrict(order.getPickUpDistrict())
+                .pickUpWard(order.getPickUpWard())
                 .pickUpPersonName(order.getPickUpPersonName())
                 .pickUpPersonPhoneNumber(order.getPickUpPersonPhoneNumber())
                 .ShipperUser(order.getShipperUser() == null ? null : order.getShipperUser())
