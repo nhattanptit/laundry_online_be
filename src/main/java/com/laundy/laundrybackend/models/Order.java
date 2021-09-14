@@ -61,7 +61,6 @@ public class Order extends Auditable {
     @NotNull
     private String pickUpWard;
 
-
     @NotBlank
     @NotNull
     private String pickUpDistrict;
