@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoDTO getCurrentUserInfo() {
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        Address address = user.getAddresses().stream().filter(a -> a.getIsDefaultAddress()).findFirst().get();
+        Address address = addressRepository.getUserDefaultAddress(user.getId());
         return UserInfoDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
