@@ -65,4 +65,9 @@ public class UserController implements UserInterface {
         }
         return null;
     }
+
+    @Override
+    public GeneralResponse<?> getUserInfo() {
+        return ResponseFactory.successResponse(userService.getCurrentUserInfo());
+    }
 }

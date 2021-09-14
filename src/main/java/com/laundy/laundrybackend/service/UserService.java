@@ -2,6 +2,7 @@ package com.laundy.laundrybackend.service;
 
 import com.laundy.laundrybackend.models.User;
 import com.laundy.laundrybackend.models.dtos.JwtResponseDTO;
+import com.laundy.laundrybackend.models.dtos.UserInfoDTO;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
 import com.laundy.laundrybackend.models.request.SocialUserFirstLoginForm;
 import com.laundy.laundrybackend.models.request.SocialUserLoginForm;
@@ -12,5 +13,6 @@ public interface UserService {
     JwtResponseDTO loginUser(UserLoginForm userLoginForm);
     Object loginSocialUser(SocialUserLoginForm socialUserLoginForm);
     Object loginSocialUserFirstTime(SocialUserFirstLoginForm socialUserFirstLoginForm);
+    UserInfoDTO getCurrentUserInfo();
 //    User getUserByUsername()
 }

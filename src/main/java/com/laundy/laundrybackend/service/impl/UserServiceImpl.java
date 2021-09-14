@@ -6,6 +6,7 @@ import com.laundy.laundrybackend.constant.ResponseStatusCodeEnum;
 import com.laundy.laundrybackend.models.Address;
 import com.laundy.laundrybackend.models.User;
 import com.laundy.laundrybackend.models.dtos.JwtResponseDTO;
+import com.laundy.laundrybackend.models.dtos.UserInfoDTO;
 import com.laundy.laundrybackend.models.request.RegisterUserForm;
 import com.laundy.laundrybackend.models.request.SocialUserFirstLoginForm;
 import com.laundy.laundrybackend.models.request.SocialUserLoginForm;
@@ -108,6 +109,24 @@ public class UserServiceImpl implements UserService {
             addressRepository.save(address);
         }
         return authenSocialUser(user);
+    }
+
+    @Override
+    public UserInfoDTO getCurrentUserInfo() {
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+        Address address = user.getAddresses().stream().filter(a -> a.getIsDefaultAddress()).findFirst().get();
+        return UserInfoDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .address(address.getAddress())
+                .city(address.getCity())
+                .district(address.getDistrict())
+                .ward(address.getWard())
+                .isSocialUser(user.getIsSocialUser())
+                .phoneNumber(user.getPhoneNumber())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build();
     }
 
     private User getUserByUsernameOrPhoneNumber(String loginId) {

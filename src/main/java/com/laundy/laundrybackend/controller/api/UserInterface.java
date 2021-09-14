@@ -6,6 +6,7 @@ import com.laundy.laundrybackend.models.request.SocialUserLoginForm;
 import com.laundy.laundrybackend.models.request.UserLoginForm;
 import com.laundy.laundrybackend.models.response.GeneralResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,4 +32,9 @@ public interface UserInterface {
     @PostMapping("auth/social-first-signin")
     @Operation(description = "Đăng nhập hệ thống lần đầu với social user", summary = "Đăng nhập hệ thống lần đầu với social user")
     GeneralResponse<?> socialFirstLogin(@RequestBody @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Form thông tin đăng nhập lần đầu của social user", required = true) SocialUserFirstLoginForm socialUserFirstLoginForm);
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("user-info")
+    @Operation(description = "Thông tin của user", summary = "Thông tin của user")
+    GeneralResponse<?> getUserInfo();
 }
