@@ -1,0 +1,14 @@
+wso2:
+  # disable init.sql
+  # mysql:
+  #   enabled: false
+  deployment:
+    # dependencies:
+    #   mysql: false
+    wso2is:
+      ingress:
+        identity:
+          hostname: "identity.foxtech.com.vn"
+          annotations:
+            kubernetes.io/ingress.class: "nginx"
+            cert-manager.io/cluster-issuer: "foxtech.com.vn-issuer"
