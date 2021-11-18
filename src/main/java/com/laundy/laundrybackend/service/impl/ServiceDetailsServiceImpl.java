@@ -4,6 +4,7 @@ import com.laundy.laundrybackend.models.ServiceDetail;
 import com.laundy.laundrybackend.repository.ServiceDetailsRepository;
 import com.laundy.laundrybackend.service.ServiceDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "service-details")
     public List<ServiceDetail> getAllServiceDetailsByServiceId(Long id) {
         return  serviceDetailsRepository.getAllByServiceId(id);
     }
