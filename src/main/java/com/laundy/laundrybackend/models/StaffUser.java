@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 @Table(name = "staff_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone_number", "username","email"})})
-public class StaffUser {
+public class StaffUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

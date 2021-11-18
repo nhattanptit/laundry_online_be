@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 @Builder
 @Entity
 @Table(name = "addresses",uniqueConstraints = {@UniqueConstraint(columnNames = {"receiver_name","receiver_phone_number","city","district","ward","address"} )})
-public class Address {
+public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
