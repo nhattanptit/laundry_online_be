@@ -1,4 +1,5 @@
 pipeline {
+    def dockerImage = 'zonesama/laundry-be '
     agent {
         label 'master'
     }
@@ -7,24 +8,24 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-        stage('Building maven and run test') {
-            steps {
-                script {
-                    sh 'mvn -B clean package'
-                }
-            }
-        }
+//        stage('Building maven and run test') {
+//            steps {
+//                script {
+//                    sh 'mvn -B clean package'
+//                }
+//            }
+//        }
         stage('Building docker image'){
             steps{
                 script{
-                    sh 'docker build -t zonesama/laundry-be .'
+                    sh 'docker build -t ($dockerImage).'
                 }
             }
         }
         stage('Pushing builded image to docker hub'){
             steps{
                 script{
-                    sh 'docker push "zonesama/laundry-be"'
+                    sh 'docker push ($dockerImage)'
                 }
             }
         }
