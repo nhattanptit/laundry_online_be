@@ -3,7 +3,7 @@ pipeline {
         label 'master'
     }
     tools {
-        maven 'Maven 3.8.4'
+        maven '3.8.4'
         jdk 'jdk8'
     }
     stages {
