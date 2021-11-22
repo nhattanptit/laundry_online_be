@@ -1,5 +1,5 @@
+def dockerImage = 'zonesama/laundry-be '
 pipeline {
-    def dockerImage = 'zonesama/laundry-be '
     agent {
         label 'master'
     }
