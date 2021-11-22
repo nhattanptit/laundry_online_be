@@ -1,4 +1,6 @@
 def dockerImage = 'zonesama/laundry-be '
+def dockerTag = 'latest'
+def dockerContainerName = 'laundry-be'
 pipeline {
     agent {
         label 'master'
@@ -40,10 +42,10 @@ pipeline {
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "docker pull zonesama/laundry-be:latest"
-                    sshCommand remote: remote, command: "docker stop laundry-be || true"
-                    sshCommand remote: remote, command: "docker rm laundry-be || true"
-                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name laundry-be  zonesama/laundry-be"
+                    sshCommand remote: remote, command: "docker pull "+ dockerImage+":"+dockerTag
+                    sshCommand remote: remote, command: "docker stop "+dockerContainerName+" || true"
+                    sshCommand remote: remote, command: "docker rm "+dockerContainerName+" || true"
+                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name " + dockerContainerName+" "+dockerImage
                 }
             }
         }
