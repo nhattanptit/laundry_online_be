@@ -34,7 +34,7 @@ pipeline {
                     def remote = [:]
                     remote.name = 'zonesama'
 //                    remote.host = '10.225.1.206'
-                    remote.host = 'tcp://6.tcp.ngrok.io:15038'
+                    remote.host = '6.tcp.ngrok.io:15038'
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
