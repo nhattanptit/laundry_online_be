@@ -37,7 +37,7 @@ pipeline {
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "docker pull zonesama/laundry-be:lastest"
+                    sshCommand remote: remote, command: "docker pull zonesama/laundry-be:latest"
                 }
             }
         }
