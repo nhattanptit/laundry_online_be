@@ -16,6 +16,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -73,10 +79,10 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/user/auth/**").permitAll()
-                .antMatchers("/services/all").permitAll()
-                .antMatchers("/services/details").permitAll()
+                .antMatchers("/services/**").permitAll()
                 .antMatchers("/shipper/auth/**").permitAll()
                 .antMatchers("/staff/auth/**").permitAll()
+                .antMatchers("/**").permitAll()
 //                .antMatchers("/test/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
