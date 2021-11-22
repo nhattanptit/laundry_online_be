@@ -7,27 +7,27 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-        stage('Building maven and run test') {
-            steps {
-                script {
-                    sh 'mvn -B clean package'
-                }
-            }
-        }
-        stage('Building docker image'){
-            steps{
-                script{
-                    sh 'docker build -t zonesama/laundry-be .'
-                }
-            }
-        }
-        stage('Pushing builded image to docker hub'){
-            steps{
-                script{
-                    sh 'docker push "zonesama/laundry-be"'
-                }
-            }
-        }
+//        stage('Building maven and run test') {
+//            steps {
+//                script {
+//                    sh 'mvn -B clean package'
+//                }
+//            }
+//        }
+//        stage('Building docker image'){
+//            steps{
+//                script{
+//                    sh 'docker build -t zonesama/laundry-be .'
+//                }
+//            }
+//        }
+//        stage('Pushing builded image to docker hub'){
+//            steps{
+//                script{
+//                    sh 'docker push "zonesama/laundry-be"'
+//                }
+//            }
+//        }
         stage('Docker pull remote'){
             steps{
                 script{
@@ -37,7 +37,7 @@ pipeline {
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "docker ps"
+                    sshCommand remote: remote, command: "docker pull zonesama/laundry-be:lastest"
                 }
             }
         }
