@@ -1,4 +1,7 @@
 pipeline {
+    toolS {
+        maven 'Maven 3.8.4'
+    }
     agent {
         label 'master'
     }
