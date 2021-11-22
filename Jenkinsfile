@@ -38,7 +38,7 @@ pipeline {
                     remote.password = '380617'
                     remote.allowAnyHosts = true
                     sshCommand remote: remote, command: "docker pull zonesama/laundry-be:latest"
-                    sshCommand remote: remote, command: "docker run -p 8081:8081 -t zonesama/laundry-be"
+                    sshCommand remote: remote, command: "docker run --detach -p 8081:8081 -t zonesama/laundry-be"
                 }
             }
         }
