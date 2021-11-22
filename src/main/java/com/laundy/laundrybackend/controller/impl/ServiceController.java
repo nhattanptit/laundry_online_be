@@ -38,4 +38,9 @@ public class ServiceController implements ServiceInterface {
         if (serviceDetails.isEmpty()) return ResponseFactory.successResponse(null);
         return ResponseFactory.successResponse(ServiceDetailDTO.serviceDetailDTOSFromServiceDetails(serviceDetails));
     }
+
+    @Override
+    public GeneralResponse<?> test() {
+        return ResponseFactory.successResponse("Test");
+    }
 }

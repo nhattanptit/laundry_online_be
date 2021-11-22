@@ -20,4 +20,6 @@ public interface ServiceInterface {
     @Operation(description = "Load danh sách các dịch vụ chi tiết theo dịch vụ đã chọn", summary = "Load danh sách các dịch vụ chi tiết theo dịch vụ đã chọn")
     GeneralResponse<?> getServiceDetails(@RequestParam("serviceId") @Parameter(description = "Id của dịch vụ đã chọn",example = "1") Long serviceId);
 
+    @GetMapping("test")
+    GeneralResponse<?> test();
 }
