@@ -10,13 +10,13 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-//        stage('Building maven and run test') {
-//            steps {
-//                script {
-//                    sh 'mvn -B clean package'
-//                }
-//            }
-//        }
+        stage('Building maven and run test') {
+            steps {
+                script {
+                    sh 'mvn -B clean package'
+                }
+            }
+        }
         stage('Building docker image'){
             steps{
                 script{
