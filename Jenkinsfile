@@ -13,7 +13,7 @@ pipeline {
 //                    dockerImage = docker.build "zonesama/laundry-be:$BUILD_NUMBER"
                     sh 'mvn -B -DskipTests clean package'
                     sh 'docker build -t zonesama/laundry-be .'
-                    sh 'docker push zonesama/laundry-be:latest .'
+                    sh 'docker push "zonesama/laundry-be:latest"'
                 }
             }
         }
