@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
 //                    dockerImage = docker.build "zonesama/laundry-be:$BUILD_NUMBER"
-                    sh 'mvn -B -DskipTests clean package'
+                    sh './mvn -B -DskipTests clean package'
                 }
             }
         }
