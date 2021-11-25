@@ -31,12 +31,13 @@ pipeline {
                 }
             }
         }
-        stage('Copy ')
-         steps{
-             script{
-                 sh 'scp ${WORKSPACE}/deployment.yaml zonesama@10.225.1.58:/home/zonesama'
-             }
-         }
+        stage('Copy') {
+            steps {
+                script {
+                    sh 'scp ${WORKSPACE}/deployment.yaml zonesama@10.225.1.58:/home/zonesama'
+                }
+            }
+        }
 //        stage('Docker pull and run image on remote'){
 //            steps{
 //                script{
