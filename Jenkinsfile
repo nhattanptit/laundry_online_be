@@ -36,16 +36,17 @@ pipeline {
                 script{
                     def remote = [:]
                     remote.name = 'zonesama'
-                    remote.host = '10.225.1.206'
+                    remote.host = '10.225.1.58'
 //                    remote.host = '4.tcp.ngrok.io'
 //                    remote.port = 16590
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "docker pull "+dockerImage+":"+dockerTag
-                    sshCommand remote: remote, command: "docker stop "+dockerContainerName+" || true"
-                    sshCommand remote: remote, command: "docker rm "+dockerContainerName+" || true"
-                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name " + dockerContainerName+" "+dockerImage
+//                    sshCommand remote: remote, command: "docker pull "+dockerImage+":"+dockerTag
+//                    sshCommand remote: remote, command: "docker stop "+dockerContainerName+" || true"
+//                    sshCommand remote: remote, command: "docker rm "+dockerContainerName+" || true"
+//                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name " + dockerContainerName+" "+dockerImage
+                    sshCommand remote: remote, command: "envsubst < ${WORKSPACE}/deployment.yaml | kubectl apply -f -"
                 }
             }
         }

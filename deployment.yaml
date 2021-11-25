@@ -1,33 +1,53 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laundry-be
+  name: laundry
 spec:
-  replicas: 2
+  selector:
+    matchLabels:
+      app: laundry
   template:
     metadata:
       labels:
-        app: laundry-be
-        visualize: "true"
+        app: laundry
     spec:
       containers:
-        - name: laundry-be-pod
+        - name: laundry
           image: zonesama/laundry-be:latest
           ports:
             - containerPort: 8081
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    visualize: "true"
-  name: laundry-be-service
+  name: laundry-service
 spec:
-  selector:
-    app: laundry-be
   ports:
-    - name: http
-      protocol: TCP
-      port: 8081
+    - port: 80
       targetPort: 8081
-  type: ClusterIP
+      protocol: TCP
+      name: http
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  selector:
+    app: laundry
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laundry-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: laundry.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laundry-service
+                port:
+                  number: 80
