@@ -10,27 +10,27 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-        stage('Building maven and run test') {
-            steps {
-                script {
-                    sh 'mvn -B clean package'
-                }
-            }
-        }
-        stage('Building docker image'){
-            steps{
-                script{
-                    sh 'docker build -t '+ dockerImage+' .'
-                }
-            }
-        }
-        stage('Pushing builded image to docker hub'){
-            steps{
-                script{
-                    sh 'docker push '+ dockerImage
-                }
-            }
-        }
+//        stage('Building maven and run test') {
+//            steps {
+//                script {
+//                    sh 'mvn -B clean package'
+//                }
+//            }
+//        }
+//        stage('Building docker image'){
+//            steps{
+//                script{
+//                    sh 'docker build -t '+ dockerImage+' .'
+//                }
+//            }
+//        }
+//        stage('Pushing builded image to docker hub'){
+//            steps{
+//                script{
+//                    sh 'docker push '+ dockerImage
+//                }
+//            }
+//        }
         stage('Docker pull and run image on remote'){
             steps{
                 script{
@@ -46,7 +46,7 @@ pipeline {
 //                    sshCommand remote: remote, command: "docker stop "+dockerContainerName+" || true"
 //                    sshCommand remote: remote, command: "docker rm "+dockerContainerName+" || true"
 //                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name " + dockerContainerName+" "+dockerImage
-                    sshCommand remote: remote, command: "envsubst < ${WORKSPACE}/deployment.yaml | kubectl apply -f -"
+                    sshCommand remote: remote, command: "kubectl apply -f  ${WORKSPACE}/deployment.yaml"
                 }
             }
         }
