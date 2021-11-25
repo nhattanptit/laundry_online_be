@@ -54,7 +54,7 @@ pipeline {
 //                    sshCommand remote: remote, command: "docker rm "+dockerContainerName+" || true"
 //                    sshCommand remote: remote, command: "docker run -d -p 8081:8081 -t --name " + dockerContainerName+" "+dockerImage
 //                    sshCommand remote: remote, command: "envsubst < ${WORKSPACE}/deployment.yaml | kubectl apply -f -"
-                    sshCommand remote: remote, command: "kebectl apply -f https://raw.githubusercontent.com/zonesama/laundry_online_be/master/deployment.yaml"
+                    sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/zonesama/laundry_online_be/master/deployment.yaml"
                 }
             }
         }
