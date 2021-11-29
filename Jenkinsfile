@@ -43,7 +43,7 @@ pipeline {
                 script{
                     def remote = [:]
                     remote.name = 'zonesama'
-                    remote.host = '10.225.1.58'
+                    remote.host = '10.225.1.68'
                     remote.user = 'zonesama'
                     remote.password = '380617'
                     remote.allowAnyHosts = true
