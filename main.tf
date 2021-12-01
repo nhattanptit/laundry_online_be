@@ -33,7 +33,7 @@ resource "aws_s3_bucket" "laundry-terraform_state" {
     }
   }
 }
-esource "aws_dynamodb_table" "laundry_terraform_locks" {
+resource "aws_dynamodb_table" "laundry_terraform_locks" {
   name         = "laundry_terraform_locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
