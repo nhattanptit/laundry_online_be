@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - echo Entered the pre_build phase...
-      - mvn install -DskipTests
+      - mvn clean install -DskipTests
       - cd "$CODEBUILD_SRC_DIR"
       - terraform init -input=false
       - terraform apply -input=false -auto-approve

@@ -5,12 +5,42 @@ terraform {
       version = "~> 3.67"
     }
   }
-
   required_version = ">= 0.14.9"
+  backend "s3" {
+    bucket = "laundry-terraform_state"
+    key = "global/s3/terraform.tfstate"
+    region = "ap-southeast-1"
+
+    dynamodb_table = "laundry_terraform_locks"
+    encrypt = true
+  }
 }
 provider "aws" {
   profile = "default"
   region  = "ap-southeast-1"
+}
+
+resource "aws_s3_bucket" "laundry-terraform_state" {
+  bucket = "laundry-terraform_state"
+  versioning {
+    enabled = true
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+esource "aws_dynamodb_table" "laundry_terraform_locks" {
+  name         = "laundry_terraform_locks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
 }
 
 resource "aws_s3_bucket" "s3_bucket_laundry" {
