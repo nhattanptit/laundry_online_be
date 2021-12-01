@@ -18,6 +18,7 @@ phases:
 #      - cd "$CODEBUILD_SRC_DIR"
 #      - terraform init -input=false
 #      - terraform apply -input=false -auto-approve
+      - sudo chmod +x /usr/local/bin/terraform
       - terraform --version
       - terraform init -input=false
       - terraform validate
