@@ -2,11 +2,12 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11
+#      java: corretto11
     commands:
-    - curl -s -qL -o terraform_install.zip https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
-    - unzip terraform_install.zip -d bin/
-    - chmod +x /usr/bin/terraform
+      - wget https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
+      - unzip terraform_1.0.11_linux_amd64.zip
+      - rm terraform_1.0.11_linux_amd64.zip
+      - mv terraform /usr/local/bin/
     finally:
       - terraform --version
   pre_build:
