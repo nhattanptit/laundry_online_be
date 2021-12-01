@@ -1,29 +1,24 @@
 version: 0.2
+
 phases:
   install:
-    runtime-versions:
-      java: corretto11
     commands:
-      - wget https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
-      - unzip terraform_1.0.11_linux_amd64.zip
-      - rm terraform_1.0.11_linux_amd64.zip
-      - mv terraform /usr/local/bin/
+      # install terraform binary
+      - curl -s -qL -o terraform_install.zip https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
+      - unzip terraform_install.zip -d /usr/bin/
+      - chmod +x /usr/bin/terraform
     finally:
       - terraform --version
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phase...
+      - echo Entered the pre_build phase...
+    finally:
+      - echo This always runs even if the login command fails
   build:
     commands:
-#      - echo Build started on `date`
-##      - mvn install -DskipTests
-#      - cd "$CODEBUILD_SRC_DIR"
-#      - terraform init -input=false
-#      - terraform apply -input=false -auto-approve
+      - echo Entered the build phase...
+    finally:
+      - echo This always runs even if the install command fails
   post_build:
     commands:
-      - echo Build completed on `date`
-#artifacts:
-#  files:
-#    - '**/*'
-#  name: laundrybe
+      - echo Entered the post_build phase...
