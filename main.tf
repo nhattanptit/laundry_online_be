@@ -20,7 +20,7 @@ provider "aws" {
   region  = "ap-southeast-1"
 }
 
-resource "aws_s3_bucket" "laundry-terraform_state" {
+resource "aws_s3_bucket" "laundry-terraform-state" {
   bucket = "laundry-terraform_state"
   versioning {
     enabled = true
@@ -34,7 +34,7 @@ resource "aws_s3_bucket" "laundry-terraform_state" {
   }
 }
 resource "aws_dynamodb_table" "laundry_terraform_locks" {
-  name         = "laundry_terraform_locks"
+  name         = "laundry-terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
   attribute {
