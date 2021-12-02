@@ -8,11 +8,11 @@ terraform {
   required_version = ">= 0.14.9"
   backend "s3" {
     bucket = "laundry-terraform-state"
-    key = "global/s3/terraform.tfstate"
+    key    = "global/s3/terraform.tfstate"
     region = "ap-southeast-1"
 
     dynamodb_table = "laundry-terraform-locks"
-    encrypt = true
+    encrypt        = true
   }
 }
 provider "aws" {
@@ -79,7 +79,7 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_laundry_env" {
   }
 
   setting {
-    name = "InstanceTypes"
+    name      = "InstanceTypes"
     namespace = "aws:ec2:instances"
     value     = "t2.micro"
   }

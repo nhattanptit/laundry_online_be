@@ -26,4 +26,4 @@ phases:
       - echo Init and Apply terraform build
       - cd "$CODEBUILD_SRC_DIR"
       - terraform init -input=false
-      - terraform apply -input=false -auto-approve
+      - terraform apply -replace="aws_s3_bucket_object.s3_bucket_object_laundry" -replace="aws_elastic_beanstalk_environment.beanstalk_laundry_env" -input=false -auto-approve
