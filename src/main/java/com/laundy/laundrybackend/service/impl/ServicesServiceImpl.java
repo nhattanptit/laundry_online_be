@@ -21,7 +21,7 @@ public class ServicesServiceImpl implements ServicesService {
     @Transactional
     @Cacheable(cacheNames = "services", key = "")
     public List<Service> getAllService() {
-        System.out.println("in");
+        System.out.println("in in");
         return serviceRepository.findAll();
     }
 }

@@ -21,6 +21,7 @@ public class ServiceDetailsServiceImpl implements ServiceDetailsService {
     @Override
     @Cacheable(cacheNames = "service-details")
     public List<ServiceDetail> getAllServiceDetailsByServiceId(Long id) {
+        System.out.println("in");
         return  serviceDetailsRepository.getAllByServiceId(id);
     }
 }
