@@ -1,10 +1,15 @@
+def selectedBranch = env.BRANCH
 pipeline {
     agent any
 
+    tools {
+        maven '3.8.5'
+    }
+
     stages {
-        stage('Hello') {
+        stage('Maven clean install') {
             steps {
-                echo 'Pulling...' + env.BRANCH
+               sh 'mvn -B clean install'
             }
         }
     }
