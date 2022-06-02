@@ -1,4 +1,4 @@
-def selectedEnv = ${ENVIRONMENT}
+def selectedEnv = env.ENVIRONMENT
 pipeline {
     agent any
 
