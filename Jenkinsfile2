@@ -1,4 +1,4 @@
-def selectedBranch = env.BRANCH
+def selectedEnv = $ENVIRONMENT
 pipeline {
     agent any
 
@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Maven clean install') {
             steps {
+                echo selectedEnv
                sh 'mvn -B clean install'
             }
         }
