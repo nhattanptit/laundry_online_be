@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo params.ENVIRONMENT
+                echo 'Pulling...' + env.BRANCH_NAME
             }
         }
     }
