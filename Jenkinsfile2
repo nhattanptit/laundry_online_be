@@ -5,12 +5,21 @@ pipeline {
     tools {
         maven '3.8.5'
     }
+//    environment {
+//        BuildTargetDir
+//    }
 
     stages {
+        stage('Copy') {
+            steps {
+                sh 'rm -r /var/lib/jenkins/workspace/'
+                sh 'cp -r cp -r /mnt/g/Working/daimler/VEEMOS-RCP-CLIENT/* /var/lib/jenkins/workspace/laundry'
+            }
+        }
         stage('Maven clean install') {
             steps {
-                echo selectedEnv
-               sh 'mvn -B clean install'
+                sh 'mvn -f /var/lib/jenkins/workspace/laundry/com.daimler.veemos.client.product/pom.xml -B clean install'
+                sh 'cp -r /var/lib/jenkins/workspace/laundry/com.daimler.veemos.client.product/target/products/*.zip /mnt/g/Build/$selectedEnv '
             }
         }
     }
